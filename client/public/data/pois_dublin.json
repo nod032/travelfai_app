@@ -1,0 +1,11 @@
+[
+  {"id": "trinity-college", "name": "Trinity College", "category": "history", "popularityScore": 9, "description": "Historic university with Book of Kells"},
+  {"id": "guinness-storehouse", "name": "Guinness Storehouse", "category": "entertainment", "popularityScore": 8, "description": "Brewery experience"},
+  {"id": "temple-bar", "name": "Temple Bar", "category": "nightlife", "popularityScore": 8, "description": "Cultural quarter with pubs"},
+  {"id": "dublin-castle", "name": "Dublin Castle", "category": "history", "popularityScore": 7, "description": "Medieval castle"},
+  {"id": "phoenix-park", "name": "Phoenix Park", "category": "nature", "popularityScore": 6, "description": "Large enclosed park"},
+  {"id": "kilmainham-gaol", "name": "Kilmainham Gaol", "category": "history", "popularityScore": 7, "description": "Former prison museum"},
+  {"id": "st-patricks", "name": "St. Patrick's Cathedral", "category": "architecture", "popularityScore": 6, "description": "Medieval cathedral"},
+  {"id": "grafton-street", "name": "Grafton Street", "category": "shopping", "popularityScore": 6, "description": "Shopping street"},
+  {"id": "irish-whiskey", "name": "Irish Whiskey Museum", "category": "entertainment", "popularityScore": 6, "description": "Whiskey tasting experience"}
+]

@@ -1,0 +1,11 @@
+[
+  {"id": "colosseum", "name": "Colosseum", "category": "history", "popularityScore": 10, "description": "Ancient Roman amphitheatre"},
+  {"id": "vatican", "name": "Vatican City", "category": "history", "popularityScore": 10, "description": "Independent city-state"},
+  {"id": "pantheon", "name": "Pantheon", "category": "architecture", "popularityScore": 9, "description": "Ancient Roman temple"},
+  {"id": "trevi-fountain", "name": "Trevi Fountain", "category": "architecture", "popularityScore": 8, "description": "Baroque fountain"},
+  {"id": "roman-forum", "name": "Roman Forum", "category": "history", "popularityScore": 9, "description": "Ancient Roman plaza"},
+  {"id": "spanish-steps", "name": "Spanish Steps", "category": "architecture", "popularityScore": 7, "description": "Monumental stairway"},
+  {"id": "capitoline", "name": "Capitoline Museums", "category": "museums", "popularityScore": 7, "description": "Ancient sculpture collection"},
+  {"id": "trastevere", "name": "Trastevere", "category": "food", "popularityScore": 8, "description": "Medieval neighborhood with restaurants"},
+  {"id": "villa-borghese", "name": "Villa Borghese", "category": "nature", "popularityScore": 6, "description": "Large landscape garden"}
+]

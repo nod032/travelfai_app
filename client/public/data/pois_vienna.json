@@ -1,0 +1,11 @@
+[
+  {"id": "schonbrunn", "name": "Schönbrunn Palace", "category": "history", "popularityScore": 10, "description": "Imperial Baroque palace"},
+  {"id": "st-stephens", "name": "St. Stephen's Cathedral", "category": "architecture", "popularityScore": 9, "description": "Gothic cathedral"},
+  {"id": "belvedere", "name": "Belvedere Palace", "category": "art", "popularityScore": 8, "description": "Baroque palace with Klimt collection"},
+  {"id": "ringstrasse", "name": "Ringstrasse", "category": "architecture", "popularityScore": 7, "description": "Historic circular road"},
+  {"id": "naschmarkt", "name": "Naschmarkt", "category": "food", "popularityScore": 7, "description": "Famous market"},
+  {"id": "prater", "name": "Prater", "category": "entertainment", "popularityScore": 6, "description": "Amusement park with giant wheel"},
+  {"id": "mozart-house", "name": "Mozart's House", "category": "history", "popularityScore": 7, "description": "Composer's former residence"},
+  {"id": "central-cemetery", "name": "Central Cemetery", "category": "history", "popularityScore": 5, "description": "Historic cemetery"},
+  {"id": "coffee-houses", "name": "Traditional Coffee Houses", "category": "food", "popularityScore": 8, "description": "Viennese café culture"}
+]

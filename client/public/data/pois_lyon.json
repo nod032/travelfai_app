@@ -1,0 +1,11 @@
+[
+  {"id": "vieux-lyon", "name": "Vieux Lyon", "category": "history", "popularityScore": 9, "description": "Renaissance old town"},
+  {"id": "basilique-fourviere", "name": "Basilique Notre-Dame de Fourvière", "category": "architecture", "popularityScore": 8, "description": "19th-century basilica"},
+  {"id": "presquile", "name": "Presqu'île", "category": "shopping", "popularityScore": 7, "description": "Peninsula shopping district"},
+  {"id": "musee-beaux-arts", "name": "Museum of Fine Arts", "category": "art", "popularityScore": 7, "description": "Second largest art museum in France"},
+  {"id": "traboules", "name": "Les Traboules", "category": "history", "popularityScore": 8, "description": "Hidden Renaissance passageways"},
+  {"id": "parc-tete-or", "name": "Parc de la Tête d'Or", "category": "nature", "popularityScore": 6, "description": "Large urban park with lake"},
+  {"id": "bouchons", "name": "Traditional Bouchons", "category": "food", "popularityScore": 9, "description": "Authentic Lyonnaise restaurants"},
+  {"id": "confluence", "name": "Confluence District", "category": "architecture", "popularityScore": 6, "description": "Modern urban development"},
+  {"id": "silk-museum", "name": "Silk Museum", "category": "museums", "popularityScore": 5, "description": "Lyon's silk-making heritage"}
+]

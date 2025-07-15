@@ -1,0 +1,11 @@
+[
+  {"id": "sagrada-familia", "name": "Sagrada Familia", "category": "architecture", "popularityScore": 10, "description": "Gaudí's masterpiece basilica"},
+  {"id": "park-guell", "name": "Park Güell", "category": "art", "popularityScore": 9, "description": "Colorful mosaic park by Gaudí"},
+  {"id": "casa-batllo", "name": "Casa Batlló", "category": "architecture", "popularityScore": 8, "description": "Modernist building by Gaudí"},
+  {"id": "las-ramblas", "name": "Las Ramblas", "category": "shopping", "popularityScore": 8, "description": "Famous pedestrian street"},
+  {"id": "gothic-quarter", "name": "Gothic Quarter", "category": "history", "popularityScore": 8, "description": "Medieval neighborhood"},
+  {"id": "picasso-museum", "name": "Picasso Museum", "category": "art", "popularityScore": 7, "description": "Collection of Picasso's works"},
+  {"id": "boqueria-market", "name": "La Boqueria Market", "category": "food", "popularityScore": 8, "description": "Famous food market"},
+  {"id": "barceloneta", "name": "Barceloneta Beach", "category": "nature", "popularityScore": 7, "description": "Urban beach"},
+  {"id": "camp-nou", "name": "Camp Nou", "category": "entertainment", "popularityScore": 7, "description": "FC Barcelona stadium"}
+]

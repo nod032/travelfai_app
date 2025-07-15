@@ -1,0 +1,11 @@
+[
+  {"id": "gamla-stan", "name": "Gamla Stan", "category": "history", "popularityScore": 9, "description": "Medieval old town"},
+  {"id": "vasa-museum", "name": "Vasa Museum", "category": "museums", "popularityScore": 9, "description": "17th-century warship museum"},
+  {"id": "royal-palace", "name": "Royal Palace", "category": "history", "popularityScore": 8, "description": "Official residence of Swedish monarch"},
+  {"id": "skansen", "name": "Skansen", "category": "museums", "popularityScore": 7, "description": "Open-air museum"},
+  {"id": "stockholm-archipelago", "name": "Stockholm Archipelago", "category": "nature", "popularityScore": 8, "description": "Island chain boat tours"},
+  {"id": "moderna-museet", "name": "Moderna Museet", "category": "art", "popularityScore": 6, "description": "Modern and contemporary art"},
+  {"id": "sodermalm", "name": "Södermalm", "category": "shopping", "popularityScore": 7, "description": "Trendy district"},
+  {"id": "abba-museum", "name": "ABBA Museum", "category": "entertainment", "popularityScore": 6, "description": "Interactive ABBA experience"},
+  {"id": "djurgarden", "name": "Djurgården", "category": "nature", "popularityScore": 6, "description": "Island park"}
+]

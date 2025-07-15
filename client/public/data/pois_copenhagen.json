@@ -1,0 +1,11 @@
+[
+  {"id": "little-mermaid", "name": "The Little Mermaid", "category": "history", "popularityScore": 8, "description": "Famous bronze statue"},
+  {"id": "tivoli-gardens", "name": "Tivoli Gardens", "category": "entertainment", "popularityScore": 9, "description": "Historic amusement park"},
+  {"id": "nyhavn", "name": "Nyhavn", "category": "architecture", "popularityScore": 9, "description": "Colorful harbor district"},
+  {"id": "rosenborg-castle", "name": "Rosenborg Castle", "category": "history", "popularityScore": 7, "description": "Renaissance castle"},
+  {"id": "christiania", "name": "Freetown Christiania", "category": "history", "popularityScore": 6, "description": "Autonomous neighborhood"},
+  {"id": "national-museum", "name": "National Museum", "category": "museums", "popularityScore": 6, "description": "Danish cultural history"},
+  {"id": "round-tower", "name": "Round Tower", "category": "architecture", "popularityScore": 6, "description": "17th-century tower"},
+  {"id": "stroget", "name": "Strøget", "category": "shopping", "popularityScore": 7, "description": "Pedestrian shopping area"},
+  {"id": "smørrebrød", "name": "Traditional Smørrebrød", "category": "food", "popularityScore": 7, "description": "Danish open sandwiches"}
+]

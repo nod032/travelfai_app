@@ -1,0 +1,11 @@
+[
+  {"id": "duomo", "name": "Milan Cathedral", "category": "architecture", "popularityScore": 10, "description": "Gothic cathedral with spires"},
+  {"id": "la-scala", "name": "La Scala Opera House", "category": "entertainment", "popularityScore": 9, "description": "World-famous opera house"},
+  {"id": "galleria", "name": "Galleria Vittorio Emanuele II", "category": "shopping", "popularityScore": 8, "description": "Historic shopping gallery"},
+  {"id": "last-supper", "name": "The Last Supper", "category": "art", "popularityScore": 10, "description": "Leonardo da Vinci's masterpiece"},
+  {"id": "sforza-castle", "name": "Sforza Castle", "category": "history", "popularityScore": 7, "description": "15th-century fortress"},
+  {"id": "brera-district", "name": "Brera District", "category": "art", "popularityScore": 7, "description": "Artistic neighborhood"},
+  {"id": "navigli", "name": "Navigli Canals", "category": "nightlife", "popularityScore": 7, "description": "Historic canals with bars"},
+  {"id": "quadrilatero", "name": "Quadrilatero della Moda", "category": "shopping", "popularityScore": 8, "description": "Fashion district"},
+  {"id": "aperitivo", "name": "Aperitivo Culture", "category": "food", "popularityScore": 7, "description": "Italian pre-dinner drinks and snacks"}
+]

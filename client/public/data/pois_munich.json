@@ -1,0 +1,11 @@
+[
+  {"id": "marienplatz", "name": "Marienplatz", "category": "history", "popularityScore": 9, "description": "Central square with Glockenspiel"},
+  {"id": "oktoberfest", "name": "Oktoberfest Grounds", "category": "entertainment", "popularityScore": 8, "description": "World's largest beer festival venue"},
+  {"id": "neuschwanstein", "name": "Neuschwanstein Castle", "category": "architecture", "popularityScore": 10, "description": "Fairy-tale castle day trip"},
+  {"id": "english-garden", "name": "English Garden", "category": "nature", "popularityScore": 7, "description": "Large public park"},
+  {"id": "viktualienmarkt", "name": "Viktualienmarkt", "category": "food", "popularityScore": 7, "description": "Daily food market"},
+  {"id": "residenz", "name": "Munich Residenz", "category": "history", "popularityScore": 7, "description": "Former royal palace"},
+  {"id": "beer-gardens", "name": "Traditional Beer Gardens", "category": "food", "popularityScore": 8, "description": "Bavarian beer culture"},
+  {"id": "deutsches-museum", "name": "Deutsches Museum", "category": "museums", "popularityScore": 6, "description": "Science and technology museum"},
+  {"id": "frauenkirche", "name": "Frauenkirche", "category": "architecture", "popularityScore": 6, "description": "Gothic cathedral with twin towers"}
+]

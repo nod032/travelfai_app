@@ -1,0 +1,11 @@
+[
+  {"id": "belem-tower", "name": "Belém Tower", "category": "history", "popularityScore": 9, "description": "Medieval defensive tower"},
+  {"id": "jeronimos", "name": "Jerónimos Monastery", "category": "architecture", "popularityScore": 9, "description": "Manueline monastery"},
+  {"id": "alfama", "name": "Alfama District", "category": "history", "popularityScore": 8, "description": "Historic neighborhood"},
+  {"id": "tram-28", "name": "Tram 28", "category": "entertainment", "popularityScore": 8, "description": "Historic tram tour"},
+  {"id": "commerce-square", "name": "Commerce Square", "category": "architecture", "popularityScore": 7, "description": "Neoclassical square"},
+  {"id": "sintra", "name": "Sintra Day Trip", "category": "nature", "popularityScore": 9, "description": "Fairy-tale palaces and gardens"},
+  {"id": "fado", "name": "Fado Houses", "category": "entertainment", "popularityScore": 7, "description": "Traditional Portuguese music"},
+  {"id": "pasteis-belem", "name": "Pastéis de Belém", "category": "food", "popularityScore": 8, "description": "Famous custard tarts"},
+  {"id": "miradouros", "name": "Miradouros (Viewpoints)", "category": "nature", "popularityScore": 7, "description": "Panoramic city views"}
+]

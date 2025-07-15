@@ -1,0 +1,11 @@
+[
+  {"id": "edinburgh-castle", "name": "Edinburgh Castle", "category": "history", "popularityScore": 10, "description": "Historic fortress on Castle Rock"},
+  {"id": "royal-mile", "name": "Royal Mile", "category": "history", "popularityScore": 9, "description": "Historic street connecting castle and palace"},
+  {"id": "arthur-seat", "name": "Arthur's Seat", "category": "nature", "popularityScore": 8, "description": "Ancient volcano with panoramic views"},
+  {"id": "holyrood-palace", "name": "Palace of Holyroodhouse", "category": "history", "popularityScore": 7, "description": "Official royal residence"},
+  {"id": "princes-street", "name": "Princes Street", "category": "shopping", "popularityScore": 6, "description": "Main shopping street"},
+  {"id": "scotch-whisky", "name": "Scotch Whisky Experience", "category": "entertainment", "popularityScore": 7, "description": "Whisky tasting and education"},
+  {"id": "grassmarket", "name": "Grassmarket", "category": "nightlife", "popularityScore": 6, "description": "Historic market square with pubs"},
+  {"id": "national-gallery", "name": "National Gallery of Scotland", "category": "art", "popularityScore": 6, "description": "Scottish and international art"},
+  {"id": "calton-hill", "name": "Calton Hill", "category": "nature", "popularityScore": 6, "description": "Hill with monuments and views"}
+]

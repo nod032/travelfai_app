@@ -1,0 +1,11 @@
+[
+  {"id": "tower-bridge", "name": "Tower Bridge", "category": "architecture", "popularityScore": 9, "description": "Iconic Victorian bridge"},
+  {"id": "big-ben", "name": "Big Ben", "category": "history", "popularityScore": 10, "description": "Famous clock tower"},
+  {"id": "british-museum", "name": "British Museum", "category": "museums", "popularityScore": 9, "description": "World's oldest public museum"},
+  {"id": "buckingham-palace", "name": "Buckingham Palace", "category": "history", "popularityScore": 8, "description": "Royal residence"},
+  {"id": "tate-modern", "name": "Tate Modern", "category": "art", "popularityScore": 7, "description": "Modern art gallery"},
+  {"id": "covent-garden", "name": "Covent Garden", "category": "shopping", "popularityScore": 7, "description": "Shopping and entertainment district"},
+  {"id": "hyde-park", "name": "Hyde Park", "category": "nature", "popularityScore": 6, "description": "Large central park"},
+  {"id": "westminster", "name": "Westminster Abbey", "category": "history", "popularityScore": 8, "description": "Gothic abbey church"},
+  {"id": "camden-market", "name": "Camden Market", "category": "food", "popularityScore": 6, "description": "Alternative market with food stalls"}
+]

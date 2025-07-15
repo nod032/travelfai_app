@@ -1,0 +1,11 @@
+[
+  {"id": "prague-castle", "name": "Prague Castle", "category": "history", "popularityScore": 10, "description": "Medieval castle complex"},
+  {"id": "charles-bridge", "name": "Charles Bridge", "category": "architecture", "popularityScore": 9, "description": "Historic stone bridge"},
+  {"id": "old-town-square", "name": "Old Town Square", "category": "history", "popularityScore": 9, "description": "Historic square with clock"},
+  {"id": "st-vitus", "name": "St. Vitus Cathedral", "category": "architecture", "popularityScore": 8, "description": "Gothic cathedral"},
+  {"id": "jewish-quarter", "name": "Jewish Quarter", "category": "history", "popularityScore": 8, "description": "Historic Jewish neighborhood"},
+  {"id": "wenceslas-square", "name": "Wenceslas Square", "category": "shopping", "popularityScore": 7, "description": "Commercial boulevard"},
+  {"id": "petrin-hill", "name": "Petřín Hill", "category": "nature", "popularityScore": 6, "description": "Hill with observation tower"},
+  {"id": "beer-halls", "name": "Traditional Beer Halls", "category": "food", "popularityScore": 8, "description": "Authentic Czech dining"},
+  {"id": "astronomical-clock", "name": "Astronomical Clock", "category": "history", "popularityScore": 8, "description": "Medieval astronomical clock"}
+]

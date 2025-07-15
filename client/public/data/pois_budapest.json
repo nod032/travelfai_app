@@ -1,0 +1,11 @@
+[
+  {"id": "parliament", "name": "Hungarian Parliament", "category": "architecture", "popularityScore": 10, "description": "Neo-Gothic parliament building"},
+  {"id": "thermal-baths", "name": "Széchenyi Thermal Baths", "category": "entertainment", "popularityScore": 9, "description": "Historic thermal spa"},
+  {"id": "buda-castle", "name": "Buda Castle", "category": "history", "popularityScore": 9, "description": "Historic castle complex"},
+  {"id": "chain-bridge", "name": "Chain Bridge", "category": "architecture", "popularityScore": 8, "description": "Iconic suspension bridge"},
+  {"id": "fishermans-bastion", "name": "Fisherman's Bastion", "category": "architecture", "popularityScore": 8, "description": "Neo-Gothic terrace"},
+  {"id": "great-market-hall", "name": "Great Market Hall", "category": "food", "popularityScore": 7, "description": "Historic covered market"},
+  {"id": "st-stephens-basilica", "name": "St. Stephen's Basilica", "category": "architecture", "popularityScore": 7, "description": "Neoclassical basilica"},
+  {"id": "danube-cruise", "name": "Danube River Cruise", "category": "nature", "popularityScore": 8, "description": "Scenic river tour"},
+  {"id": "ruin-pubs", "name": "Ruin Pubs", "category": "nightlife", "popularityScore": 7, "description": "Unique bar scene"}
+]

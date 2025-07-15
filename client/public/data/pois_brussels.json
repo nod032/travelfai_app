@@ -1,0 +1,11 @@
+[
+  {"id": "grand-place", "name": "Grand Place", "category": "architecture", "popularityScore": 10, "description": "Medieval guild halls square"},
+  {"id": "manneken-pis", "name": "Manneken Pis", "category": "history", "popularityScore": 7, "description": "Famous bronze statue"},
+  {"id": "atomium", "name": "Atomium", "category": "architecture", "popularityScore": 8, "description": "Iconic molecular structure building"},
+  {"id": "royal-museums", "name": "Royal Museums of Fine Arts", "category": "art", "popularityScore": 7, "description": "Classical and modern art"},
+  {"id": "galeries-royales", "name": "Galeries Royales Saint-Hubert", "category": "shopping", "popularityScore": 6, "description": "Historic shopping galleries"},
+  {"id": "european-quarter", "name": "European Quarter", "category": "history", "popularityScore": 5, "description": "EU institutions"},
+  {"id": "parc-cinquantenaire", "name": "Parc du Cinquantenaire", "category": "nature", "popularityScore": 5, "description": "Urban park with triumphal arch"},
+  {"id": "chocolate-tours", "name": "Belgian Chocolate Tours", "category": "food", "popularityScore": 8, "description": "Artisanal chocolate experience"},
+  {"id": "beer-culture", "name": "Belgian Beer Culture", "category": "food", "popularityScore": 8, "description": "Traditional breweries and bars"}
+]

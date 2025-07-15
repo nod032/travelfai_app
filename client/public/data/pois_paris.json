@@ -1,0 +1,11 @@
+[
+  {"id": "louvre", "name": "Louvre Museum", "category": "museums", "popularityScore": 10, "description": "World's largest art museum"},
+  {"id": "eiffel", "name": "Eiffel Tower", "category": "architecture", "popularityScore": 10, "description": "Iconic iron lattice tower"},
+  {"id": "notre-dame", "name": "Notre-Dame Cathedral", "category": "history", "popularityScore": 9, "description": "Medieval Catholic cathedral"},
+  {"id": "arc-triomphe", "name": "Arc de Triomphe", "category": "history", "popularityScore": 8, "description": "Monumental arch"},
+  {"id": "montmartre", "name": "Montmartre", "category": "art", "popularityScore": 8, "description": "Historic hilltop district"},
+  {"id": "champs-elysees", "name": "Champs-Élysées", "category": "shopping", "popularityScore": 7, "description": "Famous avenue"},
+  {"id": "versailles", "name": "Palace of Versailles", "category": "history", "popularityScore": 9, "description": "Royal château"},
+  {"id": "musee-orsay", "name": "Musée d'Orsay", "category": "art", "popularityScore": 8, "description": "Impressionist art museum"},
+  {"id": "latin-quarter", "name": "Latin Quarter", "category": "food", "popularityScore": 7, "description": "Historic neighborhood with restaurants"}
+]

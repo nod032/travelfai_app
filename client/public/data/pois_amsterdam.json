@@ -1,0 +1,11 @@
+[
+  {"id": "rijksmuseum", "name": "Rijksmuseum", "category": "museums", "popularityScore": 9, "description": "Dutch national museum"},
+  {"id": "van-gogh", "name": "Van Gogh Museum", "category": "art", "popularityScore": 9, "description": "World's largest Van Gogh collection"},
+  {"id": "anne-frank", "name": "Anne Frank House", "category": "history", "popularityScore": 9, "description": "Historic hiding place"},
+  {"id": "jordaan", "name": "Jordaan District", "category": "shopping", "popularityScore": 7, "description": "Trendy neighborhood"},
+  {"id": "vondelpark", "name": "Vondelpark", "category": "nature", "popularityScore": 6, "description": "Large urban park"},
+  {"id": "red-light", "name": "Red Light District", "category": "nightlife", "popularityScore": 7, "description": "Historic entertainment area"},
+  {"id": "flower-market", "name": "Bloemenmarkt", "category": "shopping", "popularityScore": 6, "description": "Floating flower market"},
+  {"id": "canal-cruise", "name": "Canal Cruise", "category": "nature", "popularityScore": 8, "description": "Boat tour through canals"},
+  {"id": "dam-square", "name": "Dam Square", "category": "history", "popularityScore": 7, "description": "Central town square"}
+]

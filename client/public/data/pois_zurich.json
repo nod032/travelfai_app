@@ -1,0 +1,11 @@
+[
+  {"id": "old-town", "name": "Zurich Old Town", "category": "history", "popularityScore": 8, "description": "Medieval old town"},
+  {"id": "lake-zurich", "name": "Lake Zurich", "category": "nature", "popularityScore": 9, "description": "Beautiful alpine lake"},
+  {"id": "kunsthaus", "name": "Kunsthaus Zurich", "category": "art", "popularityScore": 7, "description": "Art museum"},
+  {"id": "grossmunster", "name": "Grossmünster", "category": "architecture", "popularityScore": 7, "description": "Romanesque church"},
+  {"id": "bahnhofstrasse", "name": "Bahnhofstrasse", "category": "shopping", "popularityScore": 8, "description": "Luxury shopping street"},
+  {"id": "uetliberg", "name": "Uetliberg Mountain", "category": "nature", "popularityScore": 6, "description": "Mountain viewpoint"},
+  {"id": "lindenhof", "name": "Lindenhof", "category": "history", "popularityScore": 6, "description": "Historic hilltop park"},
+  {"id": "fraumunster", "name": "Fraumünster", "category": "architecture", "popularityScore": 6, "description": "Church with Chagall windows"},
+  {"id": "swiss-chocolate", "name": "Swiss Chocolate Tours", "category": "food", "popularityScore": 7, "description": "Chocolate making experience"}
+]

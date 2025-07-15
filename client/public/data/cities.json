@@ -1,0 +1,22 @@
+[
+  {"id": "paris", "name": "Paris", "country": "France"},
+  {"id": "london", "name": "London", "country": "United Kingdom"},
+  {"id": "rome", "name": "Rome", "country": "Italy"},
+  {"id": "barcelona", "name": "Barcelona", "country": "Spain"},
+  {"id": "amsterdam", "name": "Amsterdam", "country": "Netherlands"},
+  {"id": "prague", "name": "Prague", "country": "Czech Republic"},
+  {"id": "vienna", "name": "Vienna", "country": "Austria"},
+  {"id": "berlin", "name": "Berlin", "country": "Germany"},
+  {"id": "stockholm", "name": "Stockholm", "country": "Sweden"},
+  {"id": "budapest", "name": "Budapest", "country": "Hungary"},
+  {"id": "dublin", "name": "Dublin", "country": "Ireland"},
+  {"id": "florence", "name": "Florence", "country": "Italy"},
+  {"id": "zurich", "name": "Zurich", "country": "Switzerland"},
+  {"id": "copenhagen", "name": "Copenhagen", "country": "Denmark"},
+  {"id": "brussels", "name": "Brussels", "country": "Belgium"},
+  {"id": "lisbon", "name": "Lisbon", "country": "Portugal"},
+  {"id": "edinburgh", "name": "Edinburgh", "country": "Scotland"},
+  {"id": "munich", "name": "Munich", "country": "Germany"},
+  {"id": "milan", "name": "Milan", "country": "Italy"},
+  {"id": "lyon", "name": "Lyon", "country": "France"}
+]

@@ -1,0 +1,38 @@
+[
+  {
+    "name": "Art & Culture",
+    "example": "Explore museums, galleries, and historic sites across Europe",
+    "interests": ["museums", "art", "history"],
+    "cities": ["Paris", "Florence", "Prague"]
+  },
+  {
+    "name": "Culinary Journey",
+    "example": "Taste authentic flavors and local specialties",
+    "interests": ["food"],
+    "cities": ["Barcelona", "Rome", "Lyon"]
+  },
+  {
+    "name": "Architecture Tour",
+    "example": "Marvel at stunning buildings and urban design",
+    "interests": ["architecture"],
+    "cities": ["Vienna", "Barcelona", "Amsterdam"]
+  },
+  {
+    "name": "Historic Europe",
+    "example": "Walk through centuries of European history",
+    "interests": ["history"],
+    "cities": ["Rome", "Prague", "Edinburgh"]
+  },
+  {
+    "name": "Nightlife & Entertainment",
+    "example": "Experience Europe's vibrant nightlife scene",
+    "interests": ["nightlife", "entertainment"],
+    "cities": ["Berlin", "Amsterdam", "Budapest"]
+  },
+  {
+    "name": "Natural Beauty",
+    "example": "Discover parks, gardens, and scenic viewpoints",
+    "interests": ["nature"],
+    "cities": ["Stockholm", "Zurich", "Edinburgh"]
+  }
+]

@@ -1,0 +1,11 @@
+[
+  {"id": "brandenburg-gate", "name": "Brandenburg Gate", "category": "history", "popularityScore": 10, "description": "Iconic neoclassical gate"},
+  {"id": "berlin-wall", "name": "Berlin Wall Memorial", "category": "history", "popularityScore": 9, "description": "Cold War memorial"},
+  {"id": "museum-island", "name": "Museum Island", "category": "museums", "popularityScore": 9, "description": "UNESCO World Heritage site"},
+  {"id": "reichstag", "name": "Reichstag Building", "category": "architecture", "popularityScore": 8, "description": "German parliament building"},
+  {"id": "holocaust-memorial", "name": "Holocaust Memorial", "category": "history", "popularityScore": 8, "description": "Memorial to murdered Jews"},
+  {"id": "checkpoint-charlie", "name": "Checkpoint Charlie", "category": "history", "popularityScore": 7, "description": "Former border crossing"},
+  {"id": "hackescher-markt", "name": "Hackescher Markt", "category": "shopping", "popularityScore": 6, "description": "Shopping and nightlife area"},
+  {"id": "tiergarten", "name": "Tiergarten", "category": "nature", "popularityScore": 6, "description": "Large central park"},
+  {"id": "east-side-gallery", "name": "East Side Gallery", "category": "art", "popularityScore": 7, "description": "Open-air gallery on Berlin Wall"}
+]

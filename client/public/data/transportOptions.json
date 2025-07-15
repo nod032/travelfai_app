@@ -1,0 +1,78 @@
+{
+  "Paris→London": [
+    {"mode": "train", "durationHrs": 2.5, "cost": 89},
+    {"mode": "flight", "durationHrs": 1.5, "cost": 120}
+  ],
+  "Paris→Barcelona": [
+    {"mode": "train", "durationHrs": 6.5, "cost": 89},
+    {"mode": "flight", "durationHrs": 1.5, "cost": 150}
+  ],
+  "Paris→Rome": [
+    {"mode": "train", "durationHrs": 11, "cost": 150},
+    {"mode": "flight", "durationHrs": 2.5, "cost": 180}
+  ],
+  "Paris→Amsterdam": [
+    {"mode": "train", "durationHrs": 4, "cost": 79},
+    {"mode": "flight", "durationHrs": 1.5, "cost": 110}
+  ],
+  "London→Paris": [
+    {"mode": "train", "durationHrs": 2.5, "cost": 89},
+    {"mode": "flight", "durationHrs": 1.5, "cost": 120}
+  ],
+  "London→Amsterdam": [
+    {"mode": "train", "durationHrs": 5, "cost": 99},
+    {"mode": "flight", "durationHrs": 1.5, "cost": 130}
+  ],
+  "London→Dublin": [
+    {"mode": "flight", "durationHrs": 1.5, "cost": 90},
+    {"mode": "bus", "durationHrs": 12, "cost": 45}
+  ],
+  "Barcelona→Rome": [
+    {"mode": "train", "durationHrs": 13, "cost": 140},
+    {"mode": "flight", "durationHrs": 2, "cost": 160}
+  ],
+  "Barcelona→Paris": [
+    {"mode": "train", "durationHrs": 6.5, "cost": 89},
+    {"mode": "flight", "durationHrs": 1.5, "cost": 150}
+  ],
+  "Rome→Florence": [
+    {"mode": "train", "durationHrs": 1.5, "cost": 35},
+    {"mode": "bus", "durationHrs": 3, "cost": 20}
+  ],
+  "Rome→Barcelona": [
+    {"mode": "train", "durationHrs": 13, "cost": 140},
+    {"mode": "flight", "durationHrs": 2, "cost": 160}
+  ],
+  "Amsterdam→Berlin": [
+    {"mode": "train", "durationHrs": 6, "cost": 89},
+    {"mode": "flight", "durationHrs": 1.5, "cost": 120}
+  ],
+  "Amsterdam→Brussels": [
+    {"mode": "train", "durationHrs": 2, "cost": 45},
+    {"mode": "bus", "durationHrs": 3, "cost": 25}
+  ],
+  "Berlin→Prague": [
+    {"mode": "train", "durationHrs": 4.5, "cost": 60},
+    {"mode": "bus", "durationHrs": 6, "cost": 35}
+  ],
+  "Berlin→Vienna": [
+    {"mode": "train", "durationHrs": 8, "cost": 120},
+    {"mode": "flight", "durationHrs": 1.5, "cost": 140}
+  ],
+  "Prague→Vienna": [
+    {"mode": "train", "durationHrs": 4, "cost": 55},
+    {"mode": "bus", "durationHrs": 5, "cost": 30}
+  ],
+  "Prague→Budapest": [
+    {"mode": "train", "durationHrs": 7, "cost": 70},
+    {"mode": "bus", "durationHrs": 8, "cost": 40}
+  ],
+  "Vienna→Budapest": [
+    {"mode": "train", "durationHrs": 2.5, "cost": 45},
+    {"mode": "bus", "durationHrs": 3, "cost": 25}
+  ],
+  "Stockholm→Copenhagen": [
+    {"mode": "train", "durationHrs": 5, "cost": 85},
+    {"mode": "flight", "durationHrs": 1.5, "cost": 110}
+  ]
+}

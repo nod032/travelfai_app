@@ -1,0 +1,11 @@
+[
+  {"id": "uffizi", "name": "Uffizi Gallery", "category": "art", "popularityScore": 10, "description": "Renaissance art collection"},
+  {"id": "duomo", "name": "Florence Cathedral", "category": "architecture", "popularityScore": 10, "description": "Gothic cathedral with dome"},
+  {"id": "ponte-vecchio", "name": "Ponte Vecchio", "category": "architecture", "popularityScore": 9, "description": "Medieval stone bridge"},
+  {"id": "palazzo-pitti", "name": "Palazzo Pitti", "category": "history", "popularityScore": 8, "description": "Renaissance palace"},
+  {"id": "boboli-gardens", "name": "Boboli Gardens", "category": "nature", "popularityScore": 7, "description": "Historic park"},
+  {"id": "accademia", "name": "Accademia Gallery", "category": "art", "popularityScore": 8, "description": "Michelangelo's David"},
+  {"id": "oltrarno", "name": "Oltrarno District", "category": "shopping", "popularityScore": 6, "description": "Artisan workshops"},
+  {"id": "piazzale-michelangelo", "name": "Piazzale Michelangelo", "category": "nature", "popularityScore": 7, "description": "Panoramic viewpoint"},
+  {"id": "mercato-centrale", "name": "Mercato Centrale", "category": "food", "popularityScore": 7, "description": "Historic food market"}
+]
