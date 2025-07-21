@@ -19,23 +19,19 @@ export default function AppHeader() {
           </Link>
           
           <nav className="hidden md:flex items-center space-x-6">
-            <Link href="/">
-              <a className={`transition-colors duration-200 font-medium ${
-                location === "/" 
-                  ? "text-primary" 
-                  : "text-gray-600 hover:text-primary"
-              }`}>
-                Plan Trip
-              </a>
+            <Link href="/" className={`transition-colors duration-200 font-medium ${
+              location === "/" 
+                ? "text-primary" 
+                : "text-gray-600 hover:text-primary"
+            }`}>
+              Plan Trip
             </Link>
-            <Link href="/favorites">
-              <a className={`transition-colors duration-200 font-medium ${
-                location === "/favorites" 
-                  ? "text-primary" 
-                  : "text-gray-600 hover:text-primary"
-              }`}>
-                Favorites
-              </a>
+            <Link href="/favorites" className={`transition-colors duration-200 font-medium ${
+              location === "/favorites" 
+                ? "text-primary" 
+                : "text-gray-600 hover:text-primary"
+            }`}>
+              Favorites
             </Link>
           </nav>
           

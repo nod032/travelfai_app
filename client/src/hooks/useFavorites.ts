@@ -84,7 +84,7 @@ export function useFavorites() {
     favorites,
     addFavorite,
     removeFavorite,
-    removeFavorite: removeFavoriteById, // For backward compatibility with existing component
+    removeFavoriteById, // For backward compatibility with existing component
     isFavorite,
     getFavoritesByType,
     clearFavorites,
