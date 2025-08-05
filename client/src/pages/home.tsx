@@ -7,23 +7,26 @@ import TrendingThemesCarousel from "@/components/TrendingThemesCarousel";
 import { Card } from "@/components/ui/card";
 import { useRecentTrips } from "@/hooks/useRecentTrips";
 import { Loader2, Plane } from "lucide-react";
-import type { TripResponse } from "@shared/schema";
+import type { TripRequest, TripResponse } from "@shared/schema";
 
 export default function Home() {
   const [isGenerating, setIsGenerating] = useState(false);
   const [tripResult, setTripResult] = useState<TripResponse | null>(null);
+  const [tripRequest, setTripRequest] = useState<TripRequest | null>(null);
   const { recentTrips } = useRecentTrips();
 
   const hasRecentTrips = recentTrips.length > 0;
 
-  const handleTripGenerated = (result: TripResponse) => {
+  const handleTripGenerated = (result: TripResponse, request: TripRequest) => {
     setTripResult(result);
+    setTripRequest(request);
     setIsGenerating(false);
   };
 
   const handleGeneratingStart = () => {
     setIsGenerating(true);
     setTripResult(null);
+    setTripRequest(null);
   };
 
   return (
@@ -35,7 +38,7 @@ export default function Home() {
             Plan Your Perfect European Adventure
           </h1>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto mb-8">
-            Discover 20 amazing European cities with our AI-powered trip planner. 
+            Discover some amazing European cities with our AI-powered trip planner. 
             Get personalized itineraries based on your interests, budget, and time.
           </p>
           
@@ -149,8 +152,8 @@ export default function Home() {
         )}
 
         {/* Trip Results */}
-        {tripResult && (
-          <TripPlanDisplay tripResult={tripResult} />
+        {tripResult && tripRequest && (
+          <TripPlanDisplay tripResult={tripResult} tripRequest={tripRequest} />
         )}
       </div>
     </main>

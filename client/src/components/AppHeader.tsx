@@ -17,24 +17,7 @@ export default function AppHeader() {
               </h1>
             </div>
           </Link>
-          
-          <nav className="hidden md:flex items-center space-x-6">
-            <Link href="/" className={`transition-colors duration-200 font-medium ${
-              location === "/" 
-                ? "text-primary" 
-                : "text-gray-600 hover:text-primary"
-            }`}>
-              Plan Trip
-            </Link>
-            <Link href="/favorites" className={`transition-colors duration-200 font-medium ${
-              location === "/favorites" 
-                ? "text-primary" 
-                : "text-gray-600 hover:text-primary"
-            }`}>
-              Favorites
-            </Link>
-          </nav>
-          
+                    
           <div className="flex items-center space-x-3">
             <Link href="/favorites">
               <Button variant="outline" size="sm" className="hidden md:flex items-center space-x-2">
@@ -42,12 +25,6 @@ export default function AppHeader() {
                 <span>Favorites</span>
               </Button>
             </Link>
-            <Button className="bg-primary text-white hover:bg-primary/90">
-              <span className="flex items-center space-x-2">
-                <Map className="w-4 h-4" />
-                <span className="hidden sm:inline">Sign In</span>
-              </span>
-            </Button>
           </div>
         </div>
       </div>

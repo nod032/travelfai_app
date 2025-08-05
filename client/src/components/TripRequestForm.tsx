@@ -14,7 +14,7 @@ import { useRecentTrips } from "@/hooks/useRecentTrips";
 import { Map, Bot } from "lucide-react";
 
 interface TripRequestFormProps {
-  onTripGenerated: (result: TripResponse) => void;
+  onTripGenerated: (result: TripResponse, request: TripRequest) => void;
   onGeneratingStart: () => void;
 }
 
@@ -87,7 +87,7 @@ export default function TripRequestForm({ onTripGenerated, onGeneratingStart }: 
       // Save to recent trips
       addTrip(data);
       
-      onTripGenerated(result);
+    onTripGenerated(result, data);
       
       toast({
         title: "Trip Generated Successfully!",

@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Heart, Trash2, MapPin, Train, Plane, Bus, Car } from "lucide-react";
 
 export default function Favorites() {
-  const { favorites, removeFavorite } = useFavorites();
+  const { favorites, removeFavoriteById } = useFavorites();
 
   const activityFavorites = favorites.filter(fav => fav.itemType === 'activity');
   const transportFavorites = favorites.filter(fav => fav.itemType === 'transport');
@@ -55,7 +55,7 @@ export default function Favorites() {
                       <Button
                         variant="ghost"
                         size="sm"
-                        onClick={() => removeFavorite(favorite.id)}
+                        onClick={() => removeFavoriteById(favorite.id)}
                         className="text-red-500 hover:text-red-700 hover:bg-red-50"
                       >
                         <Trash2 className="w-4 h-4" />
@@ -98,7 +98,7 @@ export default function Favorites() {
                       <Button
                         variant="ghost"
                         size="sm"
-                        onClick={() => removeFavorite(favorite.id)}
+                        onClick={() => removeFavoriteById(favorite.id)}
                         className="text-red-500 hover:text-red-700 hover:bg-red-50"
                       >
                         <Trash2 className="w-4 h-4" />

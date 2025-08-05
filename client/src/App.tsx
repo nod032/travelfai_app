@@ -6,6 +6,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import NotFound from "@/pages/not-found";
 import Home from "@/pages/home";
 import Favorites from "@/pages/favorites";
+import SharedTrip from "@/pages/SharedTrip";
 import AppHeader from "@/components/AppHeader";
 
 function Router() {
@@ -15,6 +16,7 @@ function Router() {
       <Switch>
         <Route path="/" component={Home} />
         <Route path="/favorites" component={Favorites} />
+        <Route path="/shared-trip" component={SharedTrip} /> {}
         <Route component={NotFound} />
       </Switch>
     </div>
