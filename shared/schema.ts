@@ -8,6 +8,35 @@ export const users = pgTable("users", {
   password: text("password").notNull(),
 });
 
+export const cities = pgTable("cities", {
+  id: serial("id").primaryKey(),
+  name: text("name").notNull(),
+  country: text("country").notNull(),
+  description: text("description"),
+  imageUrl: text("image_url"),
+  latitude: text("latitude"),
+  longitude: text("longitude"),
+});
+
+export const interests = pgTable("interests", {
+  id: serial("id").primaryKey(),
+  name: text("name").notNull(),
+  category: text("category"),
+});
+
+export const cityInterests = pgTable("city_interests", {
+  id: serial("id").primaryKey(),
+  cityId: integer("city_id").references(() => cities.id),
+  interestId: integer("interest_id").references(() => interests.id),
+  relevanceScore: integer("relevance_score"),
+});
+
+export const userInterests = pgTable("user_interests", {
+  id: serial("id").primaryKey(),
+  userId: integer("user_id").references(() => users.id),
+  interestId: integer("interest_id").references(() => interests.id),
+});
+
 export const trips = pgTable("trips", {
   id: serial("id").primaryKey(),
   userId: integer("user_id"),
@@ -27,13 +56,11 @@ export const trips = pgTable("trips", {
 export const favorites = pgTable("favorites", {
   id: serial("id").primaryKey(),
   userId: integer("user_id"),
-  itemType: text("item_type").notNull(), // 'activity' or 'transport'
+  itemType: text("item_type").notNull(),
   itemId: text("item_id").notNull(),
   itemData: json("item_data").notNull(),
   createdAt: timestamp("created_at").defaultNow(),
 });
-
-// TypeScript interfaces for the trip recommendation system
 export interface TransportOption {
   mode: string;
   durationHrs: number;
@@ -86,6 +113,25 @@ export interface TripResponse {
   remainingBudget: number;
 }
 
+export interface CityRecommendation {
+  cityName: string;
+  recommendations: string;
+  highlights: string[];
+}
+
+export const cityRecommendationSchema = z.object({
+  cityName: z.string(),
+  recommendations: z.string(),
+  highlights: z.array(z.string()),
+});
+
+export const cityRecommendationRequestSchema = z.object({
+  cityName: z.string(),
+  userInterests: z.array(z.string()),
+  budget: z.number(),
+  duration: z.number(),
+});
+
 export const insertUserSchema = createInsertSchema(users).pick({
   username: true,
   password: true,
@@ -103,6 +149,14 @@ export const insertFavoriteSchema = createInsertSchema(favorites).omit({
   userId: true,
 });
 
+export const insertCitySchema = createInsertSchema(cities).omit({
+  id: true,
+});
+
+export const insertInterestSchema = createInsertSchema(interests).omit({
+  id: true,
+});
+
 export const tripRequestSchema = z.object({
   origin: z.string().min(1, "Origin city is required"),
   durationDays: z.number().min(1).max(30),
@@ -114,6 +168,10 @@ export const tripRequestSchema = z.object({
 
 export type InsertUser = z.infer<typeof insertUserSchema>;
 export type User = typeof users.$inferSelect;
+export type City = typeof cities.$inferSelect;
+export type InsertCity = z.infer<typeof insertCitySchema>;
+export type Interest = typeof interests.$inferSelect;
+export type InsertInterest = z.infer<typeof insertInterestSchema>;
 export type Trip = typeof trips.$inferSelect;
 export type InsertTrip = z.infer<typeof insertTripSchema>;
 export type Favorite = typeof favorites.$inferSelect;

@@ -1,24 +1,22 @@
 import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
-import { tripRequestSchema, type TripRequest, type TripResponse } from "@shared/schema";
+import { tripRequestSchema, type TripRequest, type TripResponse, cityRecommendationRequestSchema } from "@shared/schema";
+import { getCityRecommendations } from "./openai";
 import fs from "fs/promises";
 import path from "path";
 
 export async function registerRoutes(app: Express): Promise<Server> {
-  // Trip recommendation API endpoint
   app.post("/api/recommendTrip", async (req, res) => {
     try {
       const tripRequest = tripRequestSchema.parse(req.body) as TripRequest;
       
-      // Load static data files
       const [transportData, citiesData, trendingThemesData] = await Promise.all([
         loadJsonFile("transportOptions.json"),
         loadJsonFile("cities.json"),
         loadJsonFile("trendingThemes.json")
       ]);
 
-      // Generate trip recommendation using greedy algorithm
       const tripResponse = await generateTripRecommendation(tripRequest, transportData, citiesData);
       
       res.json(tripResponse);
@@ -30,7 +28,6 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // Get POIs for a specific city
   app.get("/api/pois/:city", async (req, res) => {
     try {
       const { city } = req.params;
@@ -42,7 +39,6 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // Get trending themes
   app.get("/api/trending-themes", async (req, res) => {
     try {
       const trendingThemes = await loadJsonFile("trendingThemes.json");
@@ -53,7 +49,6 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // Get transport options between cities
   app.get("/api/transport", async (req, res) => {
     try {
       const transportOptions = await loadJsonFile("transportOptions.json");
@@ -61,6 +56,57 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error) {
       console.error("Error loading transport options:", error);
       res.status(500).json({ message: "Failed to load transport options" });
+    }
+  });
+
+  app.get("/api/cities", async (req, res) => {
+    try {
+      const cities = await storage.getCities();
+      res.json(cities);
+    } catch (error) {
+      console.error("Error loading cities from database:", error);
+      res.status(500).json({ message: "Failed to load cities" });
+    }
+  });
+
+  app.get("/api/interests", async (req, res) => {
+    try {
+      const interests = await storage.getInterests();
+      res.json(interests);
+    } catch (error) {
+      console.error("Error loading interests from database:", error);
+      res.status(500).json({ message: "Failed to load interests" });
+    }
+  });
+
+  app.post("/api/city-recommendations", async (req, res) => {
+    try {
+      const { cityName, userInterests, budget, duration } = cityRecommendationRequestSchema.parse(req.body);
+      
+      const recommendations = await getCityRecommendations(
+        cityName,
+        userInterests,
+        budget,
+        duration
+      );
+      
+      res.json(recommendations);
+    } catch (error) {
+      console.error("Error getting city recommendations:", error);
+      res.status(400).json({ 
+        message: error instanceof Error ? error.message : "Failed to get city recommendations" 
+      });
+    }
+  });
+
+  app.get("/api/city/:cityId/interests", async (req, res) => {
+    try {
+      const cityId = parseInt(req.params.cityId);
+      const cityInterests = await storage.getCityInterests(cityId);
+      res.json(cityInterests);
+    } catch (error) {
+      console.error("Error loading city interests:", error);
+      res.status(500).json({ message: "Failed to load city interests" });
     }
   });
 
@@ -94,7 +140,6 @@ async function generateTripRecommendation(
     let nextCity = currentCity;
     let transport = null;
 
-    // If not the first day, try to find next city
     if (day > 1) {
       const candidateCities = findCandidateCities(
         currentCity, 
@@ -105,7 +150,6 @@ async function generateTripRecommendation(
       );
       
       if (candidateCities.length > 0) {
-        // Score cities based on interests and POI matches
         const bestCity = await scoreCities(candidateCities, interests);
         if (bestCity) {
           nextCity = bestCity.city;
@@ -117,7 +161,6 @@ async function generateTripRecommendation(
       }
     }
 
-    // Get POIs for current city and select best matches
     const activities = await selectActivitiesForCity(nextCity, interests, remainingBudget);
     
     const dailyCost = (transport?.cost || 0) + activities.reduce((sum: number, activity: any) => sum + (activity.cost || 0), 0);
@@ -168,13 +211,13 @@ function findCandidateCities(
     if (from.toLowerCase() === currentCity.toLowerCase() && !visitedCities.has(to.toLowerCase())) {
       const validOptions = (options as any[]).filter(option => 
         transportPreference.includes(option.mode) && 
-        option.cost <= remainingBudget * 0.3 // Don't spend more than 30% of remaining budget on transport
+        option.cost <= remainingBudget * 0.3
       );
       
       if (validOptions.length > 0) {
         candidates.push({
           city: to.toLowerCase(),
-          transport: validOptions[0] // Take the cheapest/fastest option
+          transport: validOptions[0]
         });
       }
     }
@@ -214,17 +257,16 @@ async function selectActivitiesForCity(city: string, interests: string[], budget
   try {
     const poisData = await loadJsonFile(`pois_${city}.json`);
     
-    // Filter POIs by interests and sort by popularity
     const relevantPois = poisData
       .filter((poi: any) => interests.some(interest => 
         poi.category.toLowerCase().includes(interest.toLowerCase())
       ))
       .sort((a: any, b: any) => (b.popularityScore || 0) - (a.popularityScore || 0))
-      .slice(0, 3); // Take top 3 activities per day
+      .slice(0, 3);
     
     return relevantPois.map((poi: any) => ({
       ...poi,
-      cost: Math.floor(Math.random() * 20) + 10 // Mock cost between 10-30 EUR
+      cost: Math.floor(Math.random() * 20) + 10
     }));
   } catch (error) {
     console.warn(`Could not load POIs for ${city}`);
@@ -233,8 +275,8 @@ async function selectActivitiesForCity(city: string, interests: string[], budget
 }
 
 function generateTimeSlot(index: number): string {
-  const startHours = [9, 13, 16]; // 9 AM, 1 PM, 4 PM
-  const endHours = [12, 15, 18]; // 12 PM, 3 PM, 6 PM
+  const startHours = [9, 13, 16];
+  const endHours = [12, 15, 18];
   
   const start = startHours[index] || 9;
   const end = endHours[index] || 12;
