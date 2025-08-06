@@ -1,78 +1,569 @@
 {
   "Paris→London": [
     {"mode": "train", "durationHrs": 2.5, "cost": 89},
-    {"mode": "flight", "durationHrs": 1.5, "cost": 120}
+    {"mode": "flight", "durationHrs": 1.5, "cost": 120},
+    {"mode": "car", "durationHrs": 5, "cost": 50}
   ],
+  "London→Paris": [
+    {"mode": "train", "durationHrs": 2.5, "cost": 89},
+    {"mode": "flight", "durationHrs": 1.5, "cost": 120},
+    {"mode": "car", "durationHrs": 5, "cost": 50}
+  ],
+
   "Paris→Barcelona": [
     {"mode": "train", "durationHrs": 6.5, "cost": 89},
     {"mode": "flight", "durationHrs": 1.5, "cost": 150}
   ],
+  "Barcelona→Paris": [
+    {"mode": "train", "durationHrs": 6.5, "cost": 89},
+    {"mode": "flight", "durationHrs": 1.5, "cost": 150},
+    {"mode": "car", "durationHrs": 10, "cost": 120}
+  ],
+
   "Paris→Rome": [
     {"mode": "train", "durationHrs": 11, "cost": 150},
-    {"mode": "flight", "durationHrs": 2.5, "cost": 180}
+    {"mode": "flight", "durationHrs": 2.5, "cost": 180},
+    {"mode": "car", "durationHrs": 9, "cost": 100}
   ],
+  "Rome→Paris": [
+    {"mode": "train", "durationHrs": 11, "cost": 150},
+    {"mode": "flight", "durationHrs": 2.5, "cost": 180},
+    {"mode": "car", "durationHrs": 9, "cost": 100}
+  ],
+
   "Paris→Amsterdam": [
     {"mode": "train", "durationHrs": 4, "cost": 79},
+    {"mode": "flight", "durationHrs": 1.5, "cost": 110},
+    {"mode": "car", "durationHrs": 5, "cost": 60}
+  ],
+  "Amsterdam→Paris": [
+    {"mode": "train", "durationHrs": 4, "cost": 79},
+    {"mode": "flight", "durationHrs": 1.5, "cost": 110},
+    {"mode": "car", "durationHrs": 5, "cost": 60}
+  ],
+
+  "Paris→Prague": [
+    {"mode": "train", "durationHrs": 10, "cost": 120},
+    {"mode": "flight", "durationHrs": 1.5, "cost": 100}
+  ],
+  "Prague→Paris": [
+    {"mode": "train", "durationHrs": 10, "cost": 120},
+    {"mode": "flight", "durationHrs": 1.5, "cost": 100},
+    {"mode": "car", "durationHrs": 10, "cost": 140}
+  ],
+
+  "Paris→Vienna": [
+    {"mode": "train", "durationHrs": 10, "cost": 140},
+    {"mode": "flight", "durationHrs": 2, "cost": 120}
+  ],
+  "Vienna→Paris": [
+    {"mode": "train", "durationHrs": 10, "cost": 140},
+    {"mode": "flight", "durationHrs": 2, "cost": 120},
+    {"mode": "car", "durationHrs": 10, "cost": 140}
+  ],
+
+  "Paris→Berlin": [
+    {"mode": "train", "durationHrs": 8, "cost": 120},
+    {"mode": "flight", "durationHrs": 1.5, "cost": 110},
+    {"mode": "car", "durationHrs": 9, "cost": 100}
+  ],
+  "Berlin→Paris": [
+    {"mode": "train", "durationHrs": 8, "cost": 120},
+    {"mode": "flight", "durationHrs": 1.5, "cost": 110},
+    {"mode": "car", "durationHrs": 9, "cost": 100}
+  ],
+
+  "Paris→Brussels": [
+    {"mode": "train", "durationHrs": 1.5, "cost": 50},
+    {"mode": "bus", "durationHrs": 4, "cost": 25},
+    {"mode": "flight", "durationHrs": 1, "cost": 80},
+    {"mode": "car", "durationHrs": 3.5, "cost": 40}
+  ],
+  "Brussels→Paris": [
+    {"mode": "train", "durationHrs": 1.5, "cost": 50},
+    {"mode": "bus", "durationHrs": 4, "cost": 25},
+    {"mode": "flight", "durationHrs": 1, "cost": 80},
+    {"mode": "car", "durationHrs": 3.5, "cost": 40}
+  ],
+
+  "Paris→Lisbon": [
+    {"mode": "flight", "durationHrs": 2.5, "cost": 160},
+    {"mode": "train", "durationHrs": 24, "cost": 200},
+    {"mode": "bus", "durationHrs": 30, "cost": 80}
+  ],
+  "Lisbon→Paris": [
+    {"mode": "flight", "durationHrs": 2.5, "cost": 160},
+    {"mode": "train", "durationHrs": 24, "cost": 200},
+    {"mode": "bus", "durationHrs": 30, "cost": 80}
+  ],
+
+  "Paris→Zurich": [
+    {"mode": "train", "durationHrs": 4, "cost": 80},
+    {"mode": "flight", "durationHrs": 1, "cost": 100},
+    {"mode": "bus", "durationHrs": 12, "cost": 40},
+    {"mode": "car", "durationHrs": 6.5, "cost": 70}
+  ],
+  "Zurich→Paris": [
+    {"mode": "train", "durationHrs": 4, "cost": 80},
+    {"mode": "flight", "durationHrs": 1, "cost": 100},
+    {"mode": "bus", "durationHrs": 12, "cost": 40},
+    {"mode": "car", "durationHrs": 6.5, "cost": 70}
+  ],
+
+  "Paris→Copenhagen": [
+    {"mode": "train", "durationHrs": 15, "cost": 140},
+    {"mode": "flight", "durationHrs": 2, "cost": 120},
+    {"mode": "bus", "durationHrs": 24, "cost": 60}
+  ],
+  "Copenhagen→Paris": [
+    {"mode": "train", "durationHrs": 15, "cost": 140},
+    {"mode": "flight", "durationHrs": 2, "cost": 120},
+    {"mode": "bus", "durationHrs": 24, "cost": 60}
+  ],
+
+  "Paris→Stockholm": [
+    {"mode": "flight", "durationHrs": 2.5, "cost": 150}
+  ],
+  "Stockholm→Paris": [
+    {"mode": "flight", "durationHrs": 2.5, "cost": 150}
+  ],
+
+  "Paris→Dublin": [
     {"mode": "flight", "durationHrs": 1.5, "cost": 110}
   ],
-  "London→Paris": [
-    {"mode": "train", "durationHrs": 2.5, "cost": 89},
-    {"mode": "flight", "durationHrs": 1.5, "cost": 120}
+  "Dublin→Paris": [
+    {"mode": "flight", "durationHrs": 1.5, "cost": 110}
   ],
+
+  "Paris→Edinburgh": [
+    {"mode": "flight", "durationHrs": 2, "cost": 130},
+    {"mode": "train", "durationHrs": 15, "cost": 150}
+  ],
+  "Edinburgh→Paris": [
+    {"mode": "flight", "durationHrs": 2, "cost": 130},
+    {"mode": "train", "durationHrs": 15, "cost": 150},
+    {"mode": "car", "durationHrs": 10, "cost": 120}
+  ],
+
+  "Paris→Munich": [
+    {"mode": "train", "durationHrs": 6, "cost": 100},
+    {"mode": "flight", "durationHrs": 1.5, "cost": 100},
+    {"mode": "bus", "durationHrs": 12, "cost": 45},
+    {"mode": "car", "durationHrs": 8.5, "cost": 100}
+  ],
+  "Munich→Paris": [
+    {"mode": "train", "durationHrs": 6, "cost": 100},
+    {"mode": "flight", "durationHrs": 1.5, "cost": 100},
+    {"mode": "bus", "durationHrs": 12, "cost": 45},
+    {"mode": "car", "durationHrs": 8.5, "cost": 100}
+  ],
+
+  "Paris→Milan": [
+    {"mode": "train", "durationHrs": 7, "cost": 110},
+    {"mode": "flight", "durationHrs": 1.5, "cost": 100},
+    {"mode": "bus", "durationHrs": 14, "cost": 50},
+    {"mode": "car", "durationHrs": 8.5, "cost": 100}
+  ],
+  "Milan→Paris": [
+    {"mode": "train", "durationHrs": 7, "cost": 110},
+    {"mode": "flight", "durationHrs": 1.5, "cost": 100},
+    {"mode": "bus", "durationHrs": 14, "cost": 50},
+    {"mode": "car", "durationHrs": 8.5, "cost": 100}
+  ],
+
+  "Paris→Lyon": [
+    {"mode": "train", "durationHrs": 2, "cost": 60},
+    {"mode": "bus", "durationHrs": 6, "cost": 25},
+    {"mode": "flight", "durationHrs": 1, "cost": 80},
+    {"mode": "car", "durationHrs": 4.5, "cost": 50}
+  ],
+  "Lyon→Paris": [
+    {"mode": "train", "durationHrs": 2, "cost": 60},
+    {"mode": "bus", "durationHrs": 6, "cost": 25},
+    {"mode": "flight", "durationHrs": 1, "cost": 80},
+    {"mode": "car", "durationHrs": 4.5, "cost": 50}
+  ],
+
+  "Paris→Budapest": [
+    {"mode": "train", "durationHrs": 14, "cost": 150},
+    {"mode": "flight", "durationHrs": 2, "cost": 130},
+    {"mode": "bus", "durationHrs": 18, "cost": 50}
+  ],
+  "Budapest→Paris": [
+    {"mode": "train", "durationHrs": 14, "cost": 150},
+    {"mode": "flight", "durationHrs": 2, "cost": 130},
+    {"mode": "bus", "durationHrs": 18, "cost": 50}
+  ],
+
+  "Paris→Florence": [
+    {"mode": "train", "durationHrs": 10, "cost": 130},
+    {"mode": "flight", "durationHrs": 1.5, "cost": 110}
+  ],
+  "Florence→Paris": [
+    {"mode": "train", "durationHrs": 10, "cost": 130},
+    {"mode": "flight", "durationHrs": 1.5, "cost": 110},
+    {"mode": "car", "durationHrs": 10, "cost": 120}
+  ],
+
   "London→Amsterdam": [
     {"mode": "train", "durationHrs": 5, "cost": 99},
-    {"mode": "flight", "durationHrs": 1.5, "cost": 130}
+    {"mode": "flight", "durationHrs": 1.5, "cost": 130},
+    {"mode": "car", "durationHrs": 5.5, "cost": 60}
   ],
+  "Amsterdam→London": [
+    {"mode": "train", "durationHrs": 5, "cost": 99},
+    {"mode": "flight", "durationHrs": 1.5, "cost": 130},
+    {"mode": "car", "durationHrs": 5.5, "cost": 60}
+  ],
+
   "London→Dublin": [
     {"mode": "flight", "durationHrs": 1.5, "cost": 90},
     {"mode": "bus", "durationHrs": 12, "cost": 45}
   ],
-  "Barcelona→Rome": [
-    {"mode": "train", "durationHrs": 13, "cost": 140},
-    {"mode": "flight", "durationHrs": 2, "cost": 160}
+  "Dublin→London": [
+    {"mode": "flight", "durationHrs": 1.5, "cost": 90}
   ],
-  "Barcelona→Paris": [
-    {"mode": "train", "durationHrs": 6.5, "cost": 89},
-    {"mode": "flight", "durationHrs": 1.5, "cost": 150}
+
+  "London→Rome": [
+    {"mode": "train", "durationHrs": 22, "cost": 200},
+    {"mode": "flight", "durationHrs": 2.5, "cost": 100},
+    {"mode": "bus", "durationHrs": 38, "cost": 80},
+    {"mode": "car", "durationHrs": 12, "cost": 110}
   ],
-  "Rome→Florence": [
-    {"mode": "train", "durationHrs": 1.5, "cost": 35},
-    {"mode": "bus", "durationHrs": 3, "cost": 20}
+  "Rome→London": [
+    {"mode": "train", "durationHrs": 22, "cost": 200},
+    {"mode": "flight", "durationHrs": 2.5, "cost": 100},
+    {"mode": "bus", "durationHrs": 38, "cost": 80},
+    {"mode": "car", "durationHrs": 12, "cost": 110}
   ],
-  "Rome→Barcelona": [
-    {"mode": "train", "durationHrs": 13, "cost": 140},
-    {"mode": "flight", "durationHrs": 2, "cost": 160}
+
+  "London→Barcelona": [
+    {"mode": "train", "durationHrs": 24, "cost": 180},
+    {"mode": "flight", "durationHrs": 2, "cost": 90},
+    {"mode": "bus", "durationHrs": 40, "cost": 90}
   ],
-  "Amsterdam→Berlin": [
-    {"mode": "train", "durationHrs": 6, "cost": 89},
+  "Barcelona→London": [
+    {"mode": "train", "durationHrs": 24, "cost": 180},
+    {"mode": "flight", "durationHrs": 2, "cost": 90},
+    {"mode": "bus", "durationHrs": 40, "cost": 90},
+    {"mode": "car", "durationHrs": 16, "cost": 160}
+  ],
+
+  "London→Prague": [
+    {"mode": "train", "durationHrs": 18, "cost": 160},
+    {"mode": "flight", "durationHrs": 2, "cost": 90},
+    {"mode": "bus", "durationHrs": 30, "cost": 70},
+    {"mode": "car", "durationHrs": 14, "cost": 150}
+  ],
+  "Prague→London": [
+    {"mode": "train", "durationHrs": 18, "cost": 160},
+    {"mode": "flight", "durationHrs": 2, "cost": 90},
+    {"mode": "bus", "durationHrs": 30, "cost": 70},
+    {"mode": "car", "durationHrs": 14, "cost": 150}
+  ],
+
+  "London→Vienna": [
+    {"mode": "train", "durationHrs": 22, "cost": 180},
+    {"mode": "flight", "durationHrs": 2, "cost": 100},
+    {"mode": "bus", "durationHrs": 36, "cost": 80}
+  ],
+  "Vienna→London": [
+    {"mode": "train", "durationHrs": 22, "cost": 180},
+    {"mode": "flight", "durationHrs": 2, "cost": 100},
+    {"mode": "bus", "durationHrs": 36, "cost": 80}
+  ],
+
+  "London→Berlin": [
+    {"mode": "train", "durationHrs": 10, "cost": 150},
+    {"mode": "flight", "durationHrs": 1.5, "cost": 80},
+    {"mode": "bus", "durationHrs": 24, "cost": 50},
+    {"mode": "car", "durationHrs": 10, "cost": 90}
+  ],
+  "Berlin→London": [
+    {"mode": "train", "durationHrs": 10, "cost": 150},
+    {"mode": "flight", "durationHrs": 1.5, "cost": 80},
+    {"mode": "bus", "durationHrs": 24, "cost": 50},
+    {"mode": "car", "durationHrs": 10, "cost": 90}
+  ],
+
+  "London→Lisbon": [
+    {"mode": "train", "durationHrs": 35, "cost": 200},
+    {"mode": "flight", "durationHrs": 2.5, "cost": 100},
+    {"mode": "bus", "durationHrs": 45, "cost": 100}
+  ],
+  "Lisbon→London": [
+    {"mode": "flight", "durationHrs": 2.5, "cost": 100}
+  ],
+
+  "London→Zurich": [
+    {"mode": "train", "durationHrs": 15, "cost": 140},
+    {"mode": "flight", "durationHrs": 1.5, "cost": 90},
+    {"mode": "bus", "durationHrs": 30, "cost": 70}
+  ],
+  "Zurich→London": [
+    {"mode": "train", "durationHrs": 15, "cost": 140},
+    {"mode": "flight", "durationHrs": 1.5, "cost": 90},
+    {"mode": "bus", "durationHrs": 30, "cost": 70}
+  ],
+
+  "London→Stockholm": [
+    {"mode": "flight", "durationHrs": 2, "cost": 100}
+  ],
+  "Stockholm→London": [
+    {"mode": "flight", "durationHrs": 2, "cost": 100}
+  ],
+
+  "London→Edinburgh": [
+    {"mode": "train", "durationHrs": 4.5, "cost": 75},
+    {"mode": "flight", "durationHrs": 1, "cost": 80},
+    {"mode": "bus", "durationHrs": 9, "cost": 30},
+    {"mode": "car", "durationHrs": 7, "cost": 70}
+  ],
+  "Edinburgh→London": [
+    {"mode": "train", "durationHrs": 4.5, "cost": 75},
+    {"mode": "flight", "durationHrs": 1, "cost": 80},
+    {"mode": "bus", "durationHrs": 9, "cost": 30},
+    {"mode": "car", "durationHrs": 7, "cost": 70}
+  ],
+
+  "London→Munich": [
+    {"mode": "train", "durationHrs": 15, "cost": 160},
+    {"mode": "flight", "durationHrs": 1.5, "cost": 100},
+    {"mode": "bus", "durationHrs": 30, "cost": 70}
+  ],
+  "Munich→London": [
+    {"mode": "train", "durationHrs": 15, "cost": 160},
+    {"mode": "flight", "durationHrs": 1.5, "cost": 100},
+    {"mode": "bus", "durationHrs": 30, "cost": 70}
+  ],
+
+  "London→Milan": [
+    {"mode": "train", "durationHrs": 20, "cost": 180},
+    {"mode": "flight", "durationHrs": 2, "cost": 100},
+    {"mode": "bus", "durationHrs": 35, "cost": 80}
+  ],
+  "Milan→London": [
+    {"mode": "train", "durationHrs": 20, "cost": 180},
+    {"mode": "flight", "durationHrs": 2, "cost": 100},
+    {"mode": "bus", "durationHrs": 35, "cost": 80}
+  ],
+
+  "London→Lyon": [
+    {"mode": "train", "durationHrs": 5.5, "cost": 120},
+    {"mode": "flight", "durationHrs": 1.5, "cost": 90},
+    {"mode": "bus", "durationHrs": 18, "cost": 50},
+    {"mode": "car", "durationHrs": 8, "cost": 90}
+  ],
+  "Lyon→London": [
+    {"mode": "train", "durationHrs": 5.5, "cost": 120},
+    {"mode": "flight", "durationHrs": 1.5, "cost": 90},
+    {"mode": "bus", "durationHrs": 18, "cost": 50},
+    {"mode": "car", "durationHrs": 8, "cost": 90}
+  ],
+
+  "London→Budapest": [
+    {"mode": "train", "durationHrs": 30, "cost": 200},
+    {"mode": "flight", "durationHrs": 2.5, "cost": 110},
+    {"mode": "bus", "durationHrs": 45, "cost": 100}
+  ],
+  "Budapest→London": [
+    {"mode": "train", "durationHrs": 30, "cost": 200},
+    {"mode": "flight", "durationHrs": 2.5, "cost": 110},
+    {"mode": "bus", "durationHrs": 45, "cost": 100}
+  ],
+
+  "London→Florence": [
+    {"mode": "train", "durationHrs": 22, "cost": 180},
+    {"mode": "flight", "durationHrs": 2, "cost": 100}
+  ],
+  "Florence→London": [
+    {"mode": "train", "durationHrs": 22, "cost": 180},
+    {"mode": "flight", "durationHrs": 2, "cost": 100}
+  ],
+
+  "London→Copenhagen": [
+    {"mode": "train", "durationHrs": 24, "cost": 180},
+    {"mode": "flight", "durationHrs": 1.5, "cost": 110}
+  ],
+  "Copenhagen→London": [
+    {"mode": "train", "durationHrs": 24, "cost": 180},
+    {"mode": "flight", "durationHrs": 1.5, "cost": 110}
+  ],
+
+  "London→Kutaisi": [
+    {"mode": "flight", "durationHrs": 4.5, "cost": 150}
+  ],
+  "Kutaisi→London": [
+    {"mode": "flight", "durationHrs": 4.5, "cost": 150}
+  ],
+
+  "Paris→Kutaisi": [
+    {"mode": "flight", "durationHrs": 4, "cost": 140}
+  ],
+  "Kutaisi→Paris": [
+    {"mode": "flight", "durationHrs": 4, "cost": 140}
+  ],
+
+  "Berlin→Kutaisi": [
+    {"mode": "flight", "durationHrs": 3.5, "cost": 140}
+  ],
+  "Kutaisi→Berlin": [
+    {"mode": "flight", "durationHrs": 3.5, "cost": 140}
+  ],
+
+  "Milan→Kutaisi": [
+    {"mode": "flight", "durationHrs": 3.75, "cost": 130}
+  ],
+  "Kutaisi→Milan": [
+    {"mode": "flight", "durationHrs": 3.75, "cost": 130}
+  ],
+
+  "Brussels→Kutaisi": [
+    {"mode": "flight", "durationHrs": 4, "cost": 150}
+  ],
+  "Kutaisi→Brussels": [
+    {"mode": "flight", "durationHrs": 4, "cost": 150}
+  ],
+
+  "Amsterdam→Kutaisi": [
+    {"mode": "flight", "durationHrs": 4, "cost": 150}
+  ],
+  "Kutaisi→Amsterdam": [
+    {"mode": "flight", "durationHrs": 4, "cost": 150}
+  ],
+
+  "Rome→Kutaisi": [
+    {"mode": "flight", "durationHrs": 3, "cost": 120}
+  ],
+  "Kutaisi→Rome": [
+    {"mode": "flight", "durationHrs": 3, "cost": 120}
+  ],
+
+  "Vienna→Kutaisi": [
+    {"mode": "flight", "durationHrs": 3.5, "cost": 130}
+  ],
+  "Kutaisi→Vienna": [
+    {"mode": "flight", "durationHrs": 3.5, "cost": 130}
+  ],
+
+  "Madrid→Kutaisi": [
+    {"mode": "flight", "durationHrs": 5, "cost": 160}
+  ],
+  "Kutaisi→Madrid": [
+    {"mode": "flight", "durationHrs": 5, "cost": 160}
+  ],
+
+  "Athens→Rome": [
+    {"mode": "flight", "durationHrs": 2, "cost": 120}
+  ],
+  "Rome→Athens": [
+    {"mode": "flight", "durationHrs": 2, "cost": 120}
+  ],
+  
+  "Athens→London": [
+    {"mode": "flight", "durationHrs": 3.5, "cost": 140}
+  ],
+  "London→Athens": [
+    {"mode": "flight", "durationHrs": 3.5, "cost": 140}
+  ],
+  
+  "Athens→Paris": [
+    {"mode": "flight", "durationHrs": 3, "cost": 130}
+  ],
+  "Paris→Athens": [
+    {"mode": "flight", "durationHrs": 3, "cost": 130}
+  ],
+  
+  "Oslo→Stockholm": [
+    {"mode": "train", "durationHrs": 6, "cost": 100},
+    {"mode": "flight", "durationHrs": 1, "cost": 90},
+    {"mode": "car", "durationHrs": 6, "cost": 100}
+  ],
+  "Stockholm→Oslo": [
+    {"mode": "train", "durationHrs": 6, "cost": 100},
+    {"mode": "flight", "durationHrs": 1, "cost": 90},
+    {"mode": "car", "durationHrs": 6, "cost": 100}
+  ],
+  
+  "Helsinki→Stockholm": [
+    {"mode": "flight", "durationHrs": 1, "cost": 80},
+    {"mode": "ferry", "durationHrs": 17, "cost": 70}
+  ],
+  "Stockholm→Helsinki": [
+    {"mode": "flight", "durationHrs": 1, "cost": 80},
+    {"mode": "ferry", "durationHrs": 17, "cost": 70}
+  ],
+  
+  "Warsaw→Berlin": [
+    {"mode": "train", "durationHrs": 6, "cost": 80},
+    {"mode": "flight", "durationHrs": 1.5, "cost": 90},
+    {"mode": "car", "durationHrs": 8, "cost": 90}
+  ],
+  "Berlin→Warsaw": [
+    {"mode": "train", "durationHrs": 6, "cost": 80},
+    {"mode": "flight", "durationHrs": 1.5, "cost": 90},
+    {"mode": "car", "durationHrs": 8, "cost": 90}
+  ],
+  
+  "Warsaw→Prague": [
+    {"mode": "train", "durationHrs": 8, "cost": 70},
+    {"mode": "flight", "durationHrs": 1.5, "cost": 80},
+    {"mode": "car", "durationHrs": 8, "cost": 90}
+  ],
+  "Prague→Warsaw": [
+    {"mode": "train", "durationHrs": 8, "cost": 70},
+    {"mode": "flight", "durationHrs": 1.5, "cost": 80},
+    {"mode": "car", "durationHrs": 8, "cost": 90}
+  ],
+  
+  "Reykjavik→Paris": [
+    {"mode": "flight", "durationHrs": 3.5, "cost": 200}
+  ],
+  "Paris→Reykjavik": [
+    {"mode": "flight", "durationHrs": 3.5, "cost": 200}
+  ],
+  
+  "Reykjavik→London": [
+    {"mode": "flight", "durationHrs": 3, "cost": 180}
+  ],
+  "London→Reykjavik": [
+    {"mode": "flight", "durationHrs": 3, "cost": 180}
+  ],
+  
+  "Dubrovnik→Rome": [
     {"mode": "flight", "durationHrs": 1.5, "cost": 120}
   ],
-  "Amsterdam→Brussels": [
-    {"mode": "train", "durationHrs": 2, "cost": 45},
-    {"mode": "bus", "durationHrs": 3, "cost": 25}
+  "Rome→Dubrovnik": [
+    {"mode": "flight", "durationHrs": 1.5, "cost": 120}
   ],
-  "Berlin→Prague": [
-    {"mode": "train", "durationHrs": 4.5, "cost": 60},
-    {"mode": "bus", "durationHrs": 6, "cost": 35}
+  
+  "Dubrovnik→Zagreb": [
+    {"mode": "bus", "durationHrs": 6, "cost": 40},
+    {"mode": "flight", "durationHrs": 1, "cost": 80}
   ],
-  "Berlin→Vienna": [
-    {"mode": "train", "durationHrs": 8, "cost": 120},
-    {"mode": "flight", "durationHrs": 1.5, "cost": 140}
+  "Zagreb→Dubrovnik": [
+    {"mode": "bus", "durationHrs": 6, "cost": 40},
+    {"mode": "flight", "durationHrs": 1, "cost": 80}
   ],
-  "Prague→Vienna": [
-    {"mode": "train", "durationHrs": 4, "cost": 55},
-    {"mode": "bus", "durationHrs": 5, "cost": 30}
+  
+  "Krakow→Warsaw": [
+    {"mode": "train", "durationHrs": 2.5, "cost": 40},
+    {"mode": "bus", "durationHrs": 4, "cost": 30},
+    {"mode": "car", "durationHrs": 3, "cost": 40}
   ],
-  "Prague→Budapest": [
-    {"mode": "train", "durationHrs": 7, "cost": 70},
-    {"mode": "bus", "durationHrs": 8, "cost": 40}
+  "Warsaw→Krakow": [
+    {"mode": "train", "durationHrs": 2.5, "cost": 40},
+    {"mode": "bus", "durationHrs": 4, "cost": 30},
+    {"mode": "car", "durationHrs": 3, "cost": 40}
   ],
-  "Vienna→Budapest": [
-    {"mode": "train", "durationHrs": 2.5, "cost": 45},
-    {"mode": "bus", "durationHrs": 3, "cost": 25}
+  
+  "Krakow→Prague": [
+    {"mode": "train", "durationHrs": 7, "cost": 60},
+    {"mode": "flight", "durationHrs": 1.5, "cost": 80}
   ],
-  "Stockholm→Copenhagen": [
-    {"mode": "train", "durationHrs": 5, "cost": 85},
-    {"mode": "flight", "durationHrs": 1.5, "cost": 110}
+  "Prague→Krakow": [
+    {"mode": "train", "durationHrs": 7, "cost": 60},
+    {"mode": "flight", "durationHrs": 1.5, "cost": 80}
   ]
+
 }

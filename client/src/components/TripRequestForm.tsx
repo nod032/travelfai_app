@@ -5,41 +5,27 @@ import { tripRequestSchema, type TripRequest, type TripResponse } from "@shared/
 import { apiRequest } from "@/lib/queryClient";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage
+} from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue
+} from "@/components/ui/select";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useToast } from "@/hooks/use-toast";
 import { useRecentTrips } from "@/hooks/useRecentTrips";
+import { useCities, City } from "@/hooks/useCities";
 import { Map, Bot } from "lucide-react";
-
-interface TripRequestFormProps {
-  onTripGenerated: (result: TripResponse, request: TripRequest) => void;
-  onGeneratingStart: () => void;
-}
-
-const CITIES = [
-  { id: "paris", name: "Paris, France" },
-  { id: "london", name: "London, UK" },
-  { id: "rome", name: "Rome, Italy" },
-  { id: "barcelona", name: "Barcelona, Spain" },
-  { id: "amsterdam", name: "Amsterdam, Netherlands" },
-  { id: "prague", name: "Prague, Czech Republic" },
-  { id: "vienna", name: "Vienna, Austria" },
-  { id: "berlin", name: "Berlin, Germany" },
-  { id: "stockholm", name: "Stockholm, Sweden" },
-  { id: "budapest", name: "Budapest, Hungary" },
-  { id: "dublin", name: "Dublin, Ireland" },
-  { id: "florence", name: "Florence, Italy" },
-  { id: "zurich", name: "Zurich, Switzerland" },
-  { id: "copenhagen", name: "Copenhagen, Denmark" },
-  { id: "brussels", name: "Brussels, Belgium" },
-  { id: "lisbon", name: "Lisbon, Portugal" },
-  { id: "edinburgh", name: "Edinburgh, Scotland" },
-  { id: "munich", name: "Munich, Germany" },
-  { id: "milan", name: "Milan, Italy" },
-  { id: "lyon", name: "Lyon, France" }
-];
 
 const TRANSPORT_OPTIONS = [
   { id: "train", label: "Train", icon: "🚄" },
@@ -59,10 +45,27 @@ const INTEREST_OPTIONS = [
   { id: "art", label: "Art", icon: "🎨" }
 ];
 
-export default function TripRequestForm({ onTripGenerated, onGeneratingStart }: TripRequestFormProps) {
+export default function TripRequestForm({
+  onTripGenerated,
+  onGeneratingStart
+}: {
+  onTripGenerated: (result: TripResponse, request: TripRequest) => void;
+  onGeneratingStart: () => void;
+}) {
   const { toast } = useToast();
   const { addTrip } = useRecentTrips();
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const {
+    data: cities,
+    isLoading: isCitiesLoading,
+    error: citiesError
+  } = useCities();
+
+  // Sort cities alphabetically by name
+  const sortedCities = cities
+    ? [...cities].sort((a, b) => a.name.localeCompare(b.name))
+    : [];
 
   const form = useForm<TripRequest>({
     resolver: zodResolver(tripRequestSchema),
@@ -72,8 +75,8 @@ export default function TripRequestForm({ onTripGenerated, onGeneratingStart }: 
       maxBudget: 1500,
       transportPreference: [],
       interests: [],
-      departureDate: new Date().toISOString().split('T')[0]
-    },
+      departureDate: new Date().toISOString().split("T")[0]
+    }
   });
 
   const onSubmit = async (data: TripRequest) => {
@@ -82,23 +85,21 @@ export default function TripRequestForm({ onTripGenerated, onGeneratingStart }: 
       onGeneratingStart();
 
       const response = await apiRequest("POST", "/api/recommendTrip", data);
-      const result = await response.json() as TripResponse;
-      
-      // Save to recent trips
+      const result = (await response.json()) as TripResponse;
+
       addTrip(data);
-      
-    onTripGenerated(result, data);
-      
+      onTripGenerated(result, data);
+
       toast({
         title: "Trip Generated Successfully!",
-        description: "Your personalized itinerary is ready.",
+        description: "Your personalized itinerary is ready."
       });
     } catch (error) {
       console.error("Error generating trip:", error);
       toast({
         title: "Error",
         description: "Failed to generate trip. Please try again.",
-        variant: "destructive",
+        variant: "destructive"
       });
     } finally {
       setIsSubmitting(false);
@@ -124,16 +125,28 @@ export default function TripRequestForm({ onTripGenerated, onGeneratingStart }: 
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Starting City</FormLabel>
-                    <Select onValueChange={field.onChange} defaultValue={field.value}>
+                    <Select
+                      onValueChange={field.onChange}
+                      value={field.value}
+                      disabled={isCitiesLoading || !!citiesError}
+                    >
                       <FormControl>
                         <SelectTrigger>
-                          <SelectValue placeholder="Choose your starting point" />
+                          <SelectValue
+                            placeholder={
+                              isCitiesLoading
+                                ? "Loading cities…"
+                                : citiesError
+                                ? "Failed to load"
+                                : "Choose your starting point"
+                            }
+                          />
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
-                        {CITIES.map((city) => (
+                        {sortedCities.map((city: City) => (
                           <SelectItem key={city.id} value={city.id}>
-                            {city.name}
+                            {city.name}, {city.country}
                           </SelectItem>
                         ))}
                       </SelectContent>
@@ -150,7 +163,12 @@ export default function TripRequestForm({ onTripGenerated, onGeneratingStart }: 
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Trip Duration</FormLabel>
-                    <Select onValueChange={(value) => field.onChange(parseInt(value))} defaultValue={field.value?.toString()}>
+                    <Select
+                      onValueChange={(value) =>
+                        field.onChange(parseInt(value))
+                      }
+                      value={field.value.toString()}
+                    >
                       <FormControl>
                         <SelectTrigger>
                           <SelectValue placeholder="Select duration" />
@@ -183,7 +201,9 @@ export default function TripRequestForm({ onTripGenerated, onGeneratingStart }: 
                         type="number"
                         placeholder="e.g., 1500"
                         {...field}
-                        onChange={(e) => field.onChange(parseInt(e.target.value))}
+                        onChange={(e) =>
+                          field.onChange(parseInt(e.target.value))
+                        }
                       />
                     </FormControl>
                     <FormMessage />
@@ -222,33 +242,35 @@ export default function TripRequestForm({ onTripGenerated, onGeneratingStart }: 
                         key={transport.id}
                         control={form.control}
                         name="transportPreference"
-                        render={({ field }) => {
-                          return (
-                            <FormItem
-                              key={transport.id}
-                              className="flex flex-row items-start space-x-3 space-y-0"
-                            >
-                              <FormControl>
-                                <Checkbox
-                                  checked={field.value?.includes(transport.id)}
-                                  onCheckedChange={(checked) => {
-                                    return checked
-                                      ? field.onChange([...field.value, transport.id])
-                                      : field.onChange(
-                                          field.value?.filter(
-                                            (value) => value !== transport.id
-                                          )
+                        render={({ field }) => (
+                          <FormItem className="flex flex-row items-start space-x-3 space-y-0">
+                            <FormControl>
+                              <Checkbox
+                                checked={field.value?.includes(
+                                  transport.id
+                                )}
+                                onCheckedChange={(checked) =>
+                                  checked
+                                    ? field.onChange([
+                                        ...field.value,
+                                        transport.id
+                                      ])
+                                    : field.onChange(
+                                        field.value?.filter(
+                                          (v) => v !== transport.id
                                         )
-                                  }}
-                                />
-                              </FormControl>
-                              <FormLabel className="text-sm font-normal cursor-pointer">
-                                <span className="mr-2">{transport.icon}</span>
-                                {transport.label}
-                              </FormLabel>
-                            </FormItem>
-                          )
-                        }}
+                                      )
+                                }
+                              />
+                            </FormControl>
+                            <FormLabel className="text-sm font-normal cursor-pointer">
+                              <span className="mr-2">
+                                {transport.icon}
+                              </span>
+                              {transport.label}
+                            </FormLabel>
+                          </FormItem>
+                        )}
                       />
                     ))}
                   </div>
@@ -270,33 +292,35 @@ export default function TripRequestForm({ onTripGenerated, onGeneratingStart }: 
                         key={interest.id}
                         control={form.control}
                         name="interests"
-                        render={({ field }) => {
-                          return (
-                            <FormItem
-                              key={interest.id}
-                              className="flex flex-row items-start space-x-3 space-y-0"
-                            >
-                              <FormControl>
-                                <Checkbox
-                                  checked={field.value?.includes(interest.id)}
-                                  onCheckedChange={(checked) => {
-                                    return checked
-                                      ? field.onChange([...field.value, interest.id])
-                                      : field.onChange(
-                                          field.value?.filter(
-                                            (value) => value !== interest.id
-                                          )
+                        render={({ field }) => (
+                          <FormItem className="flex flex-row items-start space-x-3 space-y-0">
+                            <FormControl>
+                              <Checkbox
+                                checked={field.value?.includes(
+                                  interest.id
+                                )}
+                                onCheckedChange={(checked) =>
+                                  checked
+                                    ? field.onChange([
+                                        ...field.value,
+                                        interest.id
+                                      ])
+                                    : field.onChange(
+                                        field.value?.filter(
+                                          (v) => v !== interest.id
                                         )
-                                  }}
-                                />
-                              </FormControl>
-                              <FormLabel className="text-sm font-normal cursor-pointer">
-                                <span className="mr-2">{interest.icon}</span>
-                                {interest.label}
-                              </FormLabel>
-                            </FormItem>
-                          )
-                        }}
+                                      )
+                                }
+                              />
+                            </FormControl>
+                            <FormLabel className="text-sm font-normal cursor-pointer">
+                              <span className="mr-2">
+                                {interest.icon}
+                              </span>
+                              {interest.label}
+                            </FormLabel>
+                          </FormItem>
+                        )}
                       />
                     ))}
                   </div>

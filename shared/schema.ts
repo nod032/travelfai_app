@@ -1,4 +1,6 @@
-import { pgTable, text, serial, integer, boolean, json, timestamp } from "drizzle-orm/pg-core";
+// shared/schema.ts
+
+import { pgTable, text, serial, integer, json, timestamp } from "drizzle-orm/pg-core";
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
 
@@ -61,6 +63,9 @@ export const favorites = pgTable("favorites", {
   itemData: json("item_data").notNull(),
   createdAt: timestamp("created_at").defaultNow(),
 });
+
+// ---- Domain types ----
+
 export interface TransportOption {
   mode: string;
   durationHrs: number;
@@ -119,6 +124,8 @@ export interface CityRecommendation {
   highlights: string[];
 }
 
+// ---- Zod schemas for request/response ----
+
 export const cityRecommendationSchema = z.object({
   cityName: z.string(),
   recommendations: z.string(),
@@ -132,39 +139,36 @@ export const cityRecommendationRequestSchema = z.object({
   duration: z.number(),
 });
 
+export const tripRequestSchema = z.object({
+  origin: z.string().min(1, "Origin city is required"),
+  durationDays: z.number().min(1).max(30),
+  maxBudget: z.number().min(100),
+  transportPreference: z
+    .array(z.string())
+    .min(1, "Select at least one transport option"),
+  interests: z.array(z.string()).min(1, "Select at least one interest"),
+  departureDate: z.string().min(1, "Departure date is required"),
+});
+
+// ---- Drizzle-Zod insert schemas ----
+
 export const insertUserSchema = createInsertSchema(users).pick({
   username: true,
   password: true,
 });
 
+export const insertCitySchema = createInsertSchema(cities).omit({ id: true });
+export const insertInterestSchema = createInsertSchema(interests).omit({ id: true });
 export const insertTripSchema = createInsertSchema(trips).omit({
   id: true,
   createdAt: true,
-  userId: true,
 });
-
 export const insertFavoriteSchema = createInsertSchema(favorites).omit({
   id: true,
   createdAt: true,
-  userId: true,
 });
 
-export const insertCitySchema = createInsertSchema(cities).omit({
-  id: true,
-});
-
-export const insertInterestSchema = createInsertSchema(interests).omit({
-  id: true,
-});
-
-export const tripRequestSchema = z.object({
-  origin: z.string().min(1, "Origin city is required"),
-  durationDays: z.number().min(1).max(30),
-  maxBudget: z.number().min(100),
-  transportPreference: z.array(z.string()).min(1, "Select at least one transport option"),
-  interests: z.array(z.string()).min(1, "Select at least one interest"),
-  departureDate: z.string().min(1, "Departure date is required"),
-});
+// ---- Type helpers ----
 
 export type InsertUser = z.infer<typeof insertUserSchema>;
 export type User = typeof users.$inferSelect;
@@ -176,3 +180,47 @@ export type Trip = typeof trips.$inferSelect;
 export type InsertTrip = z.infer<typeof insertTripSchema>;
 export type Favorite = typeof favorites.$inferSelect;
 export type InsertFavorite = z.infer<typeof insertFavoriteSchema>;
+
+// ---- SavedTrip (persisted itinerary) ----
+
+export const savedTripSchema = z.object({
+  id: z.union([z.string(), z.number()]),
+  name: z.string().optional(),
+  createdAt: z.string(),
+  updatedAt: z.string(),
+  tripDays: z.array(
+    z.object({
+      day: z.number(),
+      city: z.string(),
+      date: z.string(),
+      transport: z
+        .object({
+          from: z.string(),
+          to: z.string(),
+          option: z.object({
+            mode: z.string(),
+            durationHrs: z.number(),
+            cost: z.number(),
+            departureTime: z.string().optional(),
+            arrivalTime: z.string().optional(),
+          }),
+        })
+        .optional(),
+      activities: z.array(
+        z.object({
+          id: z.string(),
+          name: z.string(),
+          category: z.string(),
+          time: z.string(),
+          duration: z.number().optional(),
+        })
+      ),
+      dailyCost: z.number(),
+    })
+  ),
+  totalCost: z.number(),
+  totalTravelTime: z.number(),
+  remainingBudget: z.number(),
+});
+
+export type SavedTrip = z.infer<typeof savedTripSchema>;

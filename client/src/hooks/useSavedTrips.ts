@@ -3,7 +3,7 @@ import type { TripResponse } from "@shared/schema";
 
 export interface SavedTrip extends TripResponse {
   id: string;
-  name?: string;
+  name: string;
   createdAt: string;
   updatedAt: string;
 }
@@ -31,16 +31,18 @@ export function useSavedTrips() {
   };
 
   const saveTrip = (tripResult: TripResponse, name?: string): SavedTrip => {
+    const generatedName = name ?? generateTripName(tripResult);
+    const now = new Date().toISOString();
+
     const savedTrip: SavedTrip = {
       ...tripResult,
       id: `trip_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
-      name: name || generateTripName(tripResult),
-      createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString(),
+      name: generatedName,
+      createdAt: now,
+      updatedAt: now,
     };
 
     setSavedTrips((prev) => {
-      // Add to beginning and limit to MAX_SAVED_TRIPS
       const newTrips = [savedTrip, ...prev].slice(0, MAX_SAVED_TRIPS);
       saveTripsToStorage(newTrips);
       return newTrips;
@@ -51,10 +53,8 @@ export function useSavedTrips() {
 
   const updateTrip = (tripId: string, updates: Partial<SavedTrip>) => {
     setSavedTrips((prev) => {
-      const newTrips = prev.map(trip => 
-        trip.id === tripId 
-          ? { ...trip, ...updates, updatedAt: new Date().toISOString() }
-          : trip
+      const newTrips = prev.map((trip) =>
+        trip.id === tripId ? { ...trip, ...updates, updatedAt: new Date().toISOString() } : trip
       );
       saveTripsToStorage(newTrips);
       return newTrips;
@@ -63,35 +63,35 @@ export function useSavedTrips() {
 
   const deleteTrip = (tripId: string) => {
     setSavedTrips((prev) => {
-      const newTrips = prev.filter(trip => trip.id !== tripId);
+      const newTrips = prev.filter((trip) => trip.id !== tripId);
       saveTripsToStorage(newTrips);
       return newTrips;
     });
   };
 
   const getTrip = (tripId: string): SavedTrip | undefined => {
-    return savedTrips.find(trip => trip.id === tripId);
+    return savedTrips.find((trip) => trip.id === tripId);
   };
 
   const duplicateTrip = (tripId: string): SavedTrip | null => {
-    const originalTrip = getTrip(tripId);
-    if (!originalTrip) return null;
+    const original = getTrip(tripId);
+    if (!original) return null;
 
-    const duplicatedTrip: SavedTrip = {
-      ...originalTrip,
+    const copy: SavedTrip = {
+      ...original,
       id: `trip_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
-      name: `${originalTrip.name} (Copy)`,
+      name: `${original.name} (Copy)`,
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
     };
 
     setSavedTrips((prev) => {
-      const newTrips = [duplicatedTrip, ...prev].slice(0, MAX_SAVED_TRIPS);
+      const newTrips = [copy, ...prev].slice(0, MAX_SAVED_TRIPS);
       saveTripsToStorage(newTrips);
       return newTrips;
     });
 
-    return duplicatedTrip;
+    return copy;
   };
 
   const clearSavedTrips = () => {
@@ -99,47 +99,26 @@ export function useSavedTrips() {
     localStorage.removeItem(STORAGE_KEY);
   };
 
-  // Helper function to generate a trip name from the trip data
-  const generateTripName = (tripResult: TripResponse): string => {
-    const cities = Array.from(new Set(tripResult.tripDays.map(day => day.city)));
-    const duration = tripResult.tripDays.length;
-    
+  // Helper: new naming logic
+  function generateTripName(trip: TripResponse): string {
+    const cities = Array.from(new Set(trip.tripDays.map((d) => d.city)));
+    const days = trip.tripDays.length;
+
     if (cities.length === 1) {
-      return `${cities[0].charAt(0).toUpperCase() + cities[0].slice(1)} (${duration} days)`;
-    } else if (cities.length === 2) {
-      return `${cities[0].charAt(0).toUpperCase() + cities[0].slice(1)} & ${cities[1].charAt(0).toUpperCase() + cities[1].slice(1)}`;
-    } else if (cities.length <= 4) {
-      const cityNames = cities.map(city => city.charAt(0).toUpperCase() + city.slice(1));
-      return `${cityNames.slice(0, -1).join(', ')} & ${cityNames[cityNames.length - 1]}`;
-    } else {
-      return `European Adventure (${cities.length} cities, ${duration} days)`;
+      return `${capitalize(cities[0])} (${days} days)`;
     }
-  };
+    if (cities.length === 2) {
+      return `${capitalize(cities[0])} & ${capitalize(cities[1])} (${days} days)`;
+    }
+    // 3+ cities: use first→last
+    const first = capitalize(cities[0]);
+    const last = capitalize(cities[cities.length - 1]);
+    return `${first}→${last} (${cities.length} cities, ${days} days)`;
+  }
 
-  const getTripsByDateRange = (startDate: Date, endDate: Date): SavedTrip[] => {
-    return savedTrips.filter(trip => {
-      const tripDate = new Date(trip.createdAt);
-      return tripDate >= startDate && tripDate <= endDate;
-    });
-  };
-
-  const getTripStats = () => {
-    const totalTrips = savedTrips.length;
-    const totalCities = Array.from(
-      new Set(savedTrips.flatMap(trip => trip.tripDays.map(day => day.city)))
-    ).length;
-    const totalDays = savedTrips.reduce((sum, trip) => sum + trip.tripDays.length, 0);
-    const totalCost = savedTrips.reduce((sum, trip) => sum + trip.totalCost, 0);
-    const averageCost = totalTrips > 0 ? Math.round(totalCost / totalTrips) : 0;
-
-    return {
-      totalTrips,
-      totalCities,
-      totalDays,
-      totalCost,
-      averageCost,
-    };
-  };
+  function capitalize(s: string) {
+    return s.charAt(0).toUpperCase() + s.slice(1);
+  }
 
   return {
     savedTrips,
@@ -149,7 +128,5 @@ export function useSavedTrips() {
     getTrip,
     duplicateTrip,
     clearSavedTrips,
-    getTripsByDateRange,
-    getTripStats,
   };
 }

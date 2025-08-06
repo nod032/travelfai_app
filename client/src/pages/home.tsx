@@ -1,12 +1,15 @@
+// client/src/pages/home.tsx
+
 import { useState } from "react";
-import { useQuery } from "@tanstack/react-query";
-import TripRequestForm from "@/components/TripRequestForm";
-import TripPlanDisplay from "@/components/TripPlanDisplay";
-import RecentTripCard from "@/components/RecentTripCard";
-import TrendingThemesCarousel from "@/components/TrendingThemesCarousel";
-import { Card } from "@/components/ui/card";
 import { useRecentTrips } from "@/hooks/useRecentTrips";
 import { Loader2, Plane } from "lucide-react";
+
+import TripRequestForm from "@/components/TripRequestForm";
+import TripPlanDisplay from "@/components/TripPlanDisplay";
+import { LastTripCard } from "@/components/LastTripCard"; 
+import TrendingThemesCarousel from "@/components/TrendingThemesCarousel";
+import { Card } from "@/components/ui/card";
+
 import type { TripRequest, TripResponse } from "@shared/schema";
 
 export default function Home() {
@@ -17,17 +20,17 @@ export default function Home() {
 
   const hasRecentTrips = recentTrips.length > 0;
 
-  const handleTripGenerated = (result: TripResponse, request: TripRequest) => {
+  function handleTripGenerated(result: TripResponse, request: TripRequest) {
     setTripResult(result);
     setTripRequest(request);
     setIsGenerating(false);
-  };
+  }
 
-  const handleGeneratingStart = () => {
+  function handleGeneratingStart() {
     setIsGenerating(true);
     setTripResult(null);
     setTripRequest(null);
-  };
+  }
 
   return (
     <main className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -38,95 +41,28 @@ export default function Home() {
             Plan Your Perfect European Adventure
           </h1>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto mb-8">
-            Discover some amazing European cities with our AI-powered trip planner. 
+            Discover some amazing European cities with our AI-powered trip planner.
             Get personalized itineraries based on your interests, budget, and time.
           </p>
-          
+
           {/* European Cities Showcase */}
           <div className="travel-grid mt-12">
-            <div className="city-card group">
-              <img 
-                src="https://images.unsplash.com/photo-1549144511-f099e773c147?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300" 
-                alt="Paris Notre-Dame Cathedral" 
-              />
-              <div className="city-overlay"></div>
-              <div className="city-name">Paris</div>
-            </div>
-            
-            <div className="city-card group">
-              <img 
-                src="https://images.unsplash.com/photo-1552832230-c0197dd311b5?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300" 
-                alt="Rome Colosseum" 
-              />
-              <div className="city-overlay"></div>
-              <div className="city-name">Rome</div>
-            </div>
-            
-            <div className="city-card group">
-              <img 
-                src="https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300" 
-                alt="London Tower Bridge" 
-              />
-              <div className="city-overlay"></div>
-              <div className="city-name">London</div>
-            </div>
-            
-            <div className="city-card group">
-              <img 
-                src="https://images.unsplash.com/photo-1534351590666-13e3e96b5017?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300" 
-                alt="Amsterdam canals" 
-              />
-              <div className="city-overlay"></div>
-              <div className="city-name">Amsterdam</div>
-            </div>
-            
-            <div className="city-card group">
-              <img 
-                src="https://images.unsplash.com/photo-1541849546-216549ae216d?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300" 
-                alt="Prague Castle" 
-              />
-              <div className="city-overlay"></div>
-              <div className="city-name">Prague</div>
-            </div>
-            
-            <div className="city-card group">
-              <img 
-                src="https://images.unsplash.com/photo-1539037116277-4db20889f2d4?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300" 
-                alt="Barcelona Sagrada Familia" 
-              />
-              <div className="city-overlay"></div>
-              <div className="city-name">Barcelona</div>
-            </div>
-            
-            <div className="city-card group">
-              <img 
-                src="https://images.unsplash.com/photo-1516550893923-42d28e5677af?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300" 
-                alt="Vienna Schönbrunn Palace" 
-              />
-              <div className="city-overlay"></div>
-              <div className="city-name">Vienna</div>
-            </div>
-            
-            <div className="city-card group">
-              <img 
-                src="https://images.unsplash.com/photo-1509356843151-3e7d96241e11?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300" 
-                alt="Stockholm waterfront" 
-              />
-              <div className="city-overlay"></div>
-              <div className="city-name">Stockholm</div>
-            </div>
+            {/* ... your existing city cards ... */}
           </div>
         </section>
 
         {/* Recent Trip or Trending Themes */}
         {hasRecentTrips ? (
-          <RecentTripCard onRerunTrip={handleGeneratingStart} />
+          <LastTripCard
+            onGeneratingStart={handleGeneratingStart}
+            onTripGenerated={handleTripGenerated}
+          />
         ) : (
           <TrendingThemesCarousel />
         )}
 
         {/* Trip Request Form */}
-        <TripRequestForm 
+        <TripRequestForm
           onTripGenerated={handleTripGenerated}
           onGeneratingStart={handleGeneratingStart}
         />
@@ -142,10 +78,11 @@ export default function Home() {
                 Creating Your Perfect Trip
               </h3>
               <p className="text-gray-600">
-                Our AI is analyzing the best routes, activities, and experiences for you...
+                Our AI is analyzing the best routes, activities, and experiences
+                for you...
               </p>
               <div className="w-64 bg-gray-200 rounded-full h-2">
-                <div className="bg-primary h-2 rounded-full animate-pulse w-3/4"></div>
+                <div className="bg-primary h-2 rounded-full animate-pulse w-3/4" />
               </div>
             </div>
           </Card>
@@ -153,7 +90,10 @@ export default function Home() {
 
         {/* Trip Results */}
         {tripResult && tripRequest && (
-          <TripPlanDisplay tripResult={tripResult} tripRequest={tripRequest} />
+          <TripPlanDisplay
+            tripResult={tripResult}
+            tripRequest={tripRequest}
+          />
         )}
       </div>
     </main>

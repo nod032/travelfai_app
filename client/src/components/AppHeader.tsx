@@ -1,9 +1,9 @@
-import { Link, useLocation } from "wouter";
-import { Plane, Heart, Map } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { Link, useLocation } from "wouter"
+import { Plane, Heart, Map } from "lucide-react"
+import { Button } from "@/components/ui/button"
 
 export default function AppHeader() {
-  const [location] = useLocation();
+  const [location] = useLocation()
 
   return (
     <header className="bg-white shadow-material-1 sticky top-0 z-50">
@@ -17,17 +17,32 @@ export default function AppHeader() {
               </h1>
             </div>
           </Link>
-                    
+
           <div className="flex items-center space-x-3">
             <Link href="/favorites">
-              <Button variant="outline" size="sm" className="hidden md:flex items-center space-x-2">
+              <Button
+                variant="outline"
+                size="sm"
+                className="hidden md:flex items-center space-x-2"
+              >
                 <Heart className="w-4 h-4" />
                 <span>Favorites</span>
+              </Button>
+            </Link>
+
+            <Link href="/saved-trips">
+              <Button
+                variant="outline"
+                size="sm"
+                className="hidden md:flex items-center space-x-2"
+              >
+                <Map className="w-4 h-4" />
+                <span>Saved Trips</span>
               </Button>
             </Link>
           </div>
         </div>
       </div>
     </header>
-  );
+  )
 }

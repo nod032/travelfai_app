@@ -9,8 +9,9 @@ import ActivityCard from "./ActivityCard";
 import CityRecommendationCard from "@/components/CityRecommendationCard";
 import { useSavedTrips } from "@/hooks/useSavedTrips";
 import { useToast } from "@/hooks/use-toast";
-import type { TripResponse, TripRequest } from "@shared/schema";
-import { CheckCircle, Bookmark, Share, Download, Settings, MapPin, Clock, Euro, Calendar } from "lucide-react";
+import type { TripResponse, TripRequest, SavedTrip } from "@shared/schema";
+import { CheckCircle, Bookmark, Share, Download, MapPin, Clock, Euro, Calendar } from "lucide-react";
+import { apiRequest } from "@/lib/queryClient";
 
 interface TripPlanDisplayProps {
   tripResult: TripResponse;
@@ -18,17 +19,25 @@ interface TripPlanDisplayProps {
 }
 
 export default function TripPlanDisplay({ tripResult, tripRequest }: TripPlanDisplayProps) {
-  console.log('TripPlanDisplay', { tripRequest });
-
-    const { saveTrip } = useSavedTrips();
+  const { saveTrip } = useSavedTrips();
   const { toast } = useToast();
 
-  const handleSaveTrip = () => {
-    saveTrip(tripResult);
-    toast({
-      title: "Trip Saved!",
-      description: "Your trip has been saved to your collection.",
-    });
+  const handleSaveTrip = async () => {
+    const saved: SavedTrip = saveTrip(tripResult);
+
+    try {
+      await apiRequest("POST", "/api/trips", saved);
+      toast({
+        title: "Trip Saved!",
+        description: "Your itinerary is persisted locally and on the server."
+      });
+    } catch {
+      toast({
+        title: "Saved locally, but server failed",
+        description: "Check your connection to sync later.",
+        variant: "destructive"
+      });
+    }
   };
 
   const getCityImage = (city: string) => {
@@ -46,9 +55,7 @@ export default function TripPlanDisplay({ tripResult, tripRequest }: TripPlanDis
   };
 
   const handleShareTrip = () => {
-    // Encode the tripResult into a base64 string to handle special characters in URL
-    const tripDataEncoded = btoa(JSON.stringify(tripResult)); // Base64 encode
-    // Get the current base URL 
+    const tripDataEncoded = btoa(JSON.stringify(tripResult));
     const baseUrl = window.location.origin;
     const shareableUrl = `${baseUrl}/shared-trip?data=${tripDataEncoded}`;
 
@@ -58,7 +65,6 @@ export default function TripPlanDisplay({ tripResult, tripRequest }: TripPlanDis
         description: "The trip itinerary URL has been copied to your clipboard. Note: This link is long and contains all trip data directly.",
       });
     }).catch(err => {
-      console.error("Failed to copy URL: ", err);
       toast({
         title: "Failed to Copy URL",
         description: "Could not copy the trip URL to your clipboard.",
@@ -70,7 +76,6 @@ export default function TripPlanDisplay({ tripResult, tripRequest }: TripPlanDis
   const handleExportPdf = () => {
     const input = document.getElementById("trip-plan-section");
     if (input) {
-      // Ensure images are fully loaded before capturing
       const images = input.querySelectorAll('img');
       const promises = Array.from(images).filter(img => !img.complete).map(img => {
         return new Promise(resolve => {
@@ -80,8 +85,8 @@ export default function TripPlanDisplay({ tripResult, tripRequest }: TripPlanDis
 
       Promise.all(promises).then(() => {
         html2canvas(input, {
-          scale: 3, 
-          useCORS: true, // Important if images are from different origins
+          scale: 3,
+          useCORS: true,
           logging: true,
           backgroundColor: '#ffffff',
         }).then((canvas) => {
@@ -94,26 +99,21 @@ export default function TripPlanDisplay({ tripResult, tripRequest }: TripPlanDis
 
           const imgProps = pdf.getImageProperties(imgData);
           const pdfWidth = pdf.internal.pageSize.getWidth();
-          const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width; // Height of the image as it would fit on PDF width
+          const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
 
-          let heightLeft = pdfHeight; // Remaining height of the image to be placed
-          let position = 0; // Current position from the top of the image to start clipping
-          const pageHeight = pdf.internal.pageSize.getHeight(); 
+          let heightLeft = pdfHeight;
+          let position = 0;
+          const pageHeight = pdf.internal.pageSize.getHeight();
 
           while (heightLeft > 0) {
-              // If not the first page, add a new one
               if (position !== 0) {
                   pdf.addPage();
               }
 
               pdf.saveGraphicsState();
-
               pdf.rect(0, 0, pdfWidth, pageHeight);
               pdf.clip();
-
-              // This makes it look like we're "scrolling" the image up each page
               pdf.addImage(imgData, "PNG", 0, -position, pdfWidth, pdfHeight);
-
               pdf.restoreGraphicsState();
 
               heightLeft -= pageHeight;
@@ -126,7 +126,6 @@ export default function TripPlanDisplay({ tripResult, tripRequest }: TripPlanDis
             description: "Your trip itinerary has been downloaded as a PDF.",
           });
         }).catch(err => {
-            console.error("html2canvas error: ", err);
             toast({
                 title: "Export Failed",
                 description: "There was an issue capturing the trip plan for PDF. Please try again.",
@@ -143,9 +142,12 @@ export default function TripPlanDisplay({ tripResult, tripRequest }: TripPlanDis
     }
   };
 
+  // ====== DEDUPLICATION LOGIC STARTS HERE ======
+  const shownCities = new Set<string>();
+  // ==============================================
+
   return (
     <section id="trip-plan-section" className="space-y-6 animate-fade-in">
-      {/* Trip Summary Card */}
       <Card className="shadow-material-2" style={{ backgroundColor: '#ffffff' }}>
         <CardHeader style={{ backgroundColor: '#ffffff' }}>
           <div className="flex items-center justify-between">
@@ -189,59 +191,58 @@ export default function TripPlanDisplay({ tripResult, tripRequest }: TripPlanDis
         </CardContent>
       </Card>
 
-      {/* Trip Days */}
-      {tripResult.tripDays.map((day, index) => (
-        <div key={day.day} className="space-y-4">
-          {/* Transport Card (if not first day) */}
-          {day.transport && index > 0 && (
-            <TransportCard transport={day.transport} />
-          )}
+      {tripResult.tripDays.map((day, index) => {
+        const showRecommendation = !shownCities.has(day.city);
+        if (showRecommendation) shownCities.add(day.city);
 
-          {/* Day Card */}
-          <Card className="shadow-material-1 overflow-hidden" style={{ backgroundColor: '#ffffff' }}>
-            <CardHeader className="text-white"
-                style={{ background: 'linear-gradient(to right, #6366F1, #8183F7)' }}>
-              <div className="flex items-center justify-between">
-                <div>
-                  <CardTitle className="text-2xl font-playfair">
-                    Day {day.day} - {day.city.charAt(0).toUpperCase() + day.city.slice(1)}
-                  </CardTitle>
-                  <p className="text-primary-foreground/90">
-                        {day.date}
-                    </p>
+        return (
+          <div key={day.day} className="space-y-4">
+            {day.transport && index > 0 && (
+              <TransportCard transport={day.transport} />
+            )}
+
+            <Card className="shadow-material-1 overflow-hidden" style={{ backgroundColor: '#ffffff' }}>
+              <CardHeader className="text-white"
+                  style={{ background: 'linear-gradient(to right, #6366F1, #8183F7)' }}>
+                <div className="flex items-center justify-between">
+                  <div>
+                    <CardTitle className="text-2xl font-playfair">
+                      Day {day.day} - {day.city.charAt(0).toUpperCase() + day.city.slice(1)}
+                    </CardTitle>
+                    <p className="text-primary-foreground/90">
+                          {day.date}
+                      </p>
+                  </div>
+                  <img
+                    src={getCityImage(day.city)}
+                    alt={`${day.city} cityscape`}
+                    className="w-16 h-16 rounded-lg object-cover border-2 border-white/20"
+                  />
                 </div>
-                <img
-                  src={getCityImage(day.city)}
-                  alt={`${day.city} cityscape`}
-                  className="w-16 h-16 rounded-lg object-cover border-2 border-white/20"
-                />
-              </div>
-            </CardHeader>
+              </CardHeader>
 
-            <CardContent className="p-6 space-y-4" style={{ backgroundColor: '#ffffff' }}>
-              {day.activities.map((activity) => (
-                <ActivityCard
-                  key={activity.id}
-                  activity={activity}
-                  city={day.city}
-                />
-              ))}
-              
-              {/* AI City Recommendations */}
-              {tripRequest && (
-                <CityRecommendationCard
-                  cityName={day.city}
-                  userInterests={tripRequest.interests}
-                  budget={tripRequest.maxBudget}
-                  duration={tripRequest.durationDays}
-                />
-              )}
-            </CardContent>
-          </Card>
-        </div>
-      ))}
+              <CardContent className="p-6 space-y-4" style={{ backgroundColor: '#ffffff' }}>
+                {day.activities.map((activity) => (
+                  <ActivityCard
+                    key={activity.id}
+                    activity={activity}
+                    city={day.city}
+                  />
+                ))}
+                {tripRequest && showRecommendation && (
+                  <CityRecommendationCard
+                    cityName={day.city}
+                    userInterests={tripRequest.interests}
+                    budget={tripRequest.maxBudget}
+                    duration={tripRequest.durationDays}
+                  />
+                )}
+              </CardContent>
+            </Card>
+          </div>
+        );
+      })}
 
-      {/* Additional Actions */}
       <Card className="shadow-material-1" style={{ backgroundColor: '#ffffff' }}>
         <CardContent className="p-6">
           <div className="flex flex-col sm:flex-row gap-4 justify-center">

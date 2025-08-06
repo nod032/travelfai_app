@@ -23,10 +23,13 @@ export interface PoiData {
  * Implements a greedy algorithm to plan the itinerary day by day.
  */
 export class TripRecommendationEngine {
-  private transportData: TransportData; 
-  private citiesData: CityData[]; 
+  private transportData: TransportData;
+  private citiesData: CityData[];
   private poisData: PoiData; // Points of Interest data for each city
   private toast: ReturnType<typeof useToast>['toast'] | null; // Allow toast to be passed in, or be null
+
+  // For smart POI rotation:
+  private poiRotationIndex: Record<string, number> = {};
 
   constructor(transportData: TransportData, citiesData: CityData[], poisData: PoiData, toast?: ReturnType<typeof useToast>['toast']) {
     this.transportData = transportData;
@@ -35,9 +38,6 @@ export class TripRecommendationEngine {
     this.toast = toast || null;
   }
 
-  /**
-   * Generates a comprehensive trip plan based on user requests.
-   */
   generateRecommendation(request: TripRequest): TripResponse {
     const { origin, durationDays, maxBudget, transportPreference, interests, departureDate } = request;
 
@@ -46,18 +46,18 @@ export class TripRecommendationEngine {
     let totalTravelTime = 0;
     const tripDays: TripDay[] = [];
     const visitedCities = new Set<string>([currentCity]);
-    const visitedPois = new Set<string>(); // Tracks all POIs added to the trip to prevent repetition
+    const visitedPois = new Set<string>();
 
-    // Variables for dynamic transport flexibility
-    const MIN_DAYS_FOR_FLEXIBILITY = 4; // Trip duration after which flexibility is considered
-    const STICKY_CITY_THRESHOLD = 2; // Consecutive days in same city before considering other transport
+    const MIN_DAYS_FOR_FLEXIBILITY = 4;
+    const STICKY_CITY_THRESHOLD = 2;
     let consecutiveDaysInSameCity = 0;
     let flexibleTransportActivated = false;
-    const originalTransportPreference = [...transportPreference]; // Store original user preferences
+    const originalTransportPreference = [...transportPreference];
 
-    // Iterate for each day of the requested trip duration
+    // RESET poiRotationIndex at the start
+    this.poiRotationIndex = {};
+
     for (let day = 1; day <= durationDays; day++) {
-      // Calculate the specific date for the current trip day
       const currentDate = new Date(departureDate);
       currentDate.setDate(currentDate.getDate() + day - 1);
 
@@ -65,16 +65,15 @@ export class TripRecommendationEngine {
       let transport = null;
       let dailyTransportCost = 0;
 
-      let currentTransportPreference = [...originalTransportPreference]; // Use original by default
+      let currentTransportPreference = [...originalTransportPreference];
 
-      // Dynamic Transport Preference Logic: Activate broader transport for longer trips if "stuck"
       if (
         durationDays >= MIN_DAYS_FOR_FLEXIBILITY &&
         consecutiveDaysInSameCity >= STICKY_CITY_THRESHOLD &&
-        !flexibleTransportActivated // Ensures activation happens once per "stuck" scenario
+        !flexibleTransportActivated
       ) {
-        currentTransportPreference = ["flight", "train", "bus", "car"]; // Expand to all available modes
-        flexibleTransportActivated = true; // Mark as activated
+        currentTransportPreference = ["flight", "train", "bus", "car"];
+        flexibleTransportActivated = true;
         console.log(`Day ${day}: Activating flexible transport to find new cities.`);
         if (this.toast) {
           this.toast({
@@ -84,55 +83,48 @@ export class TripRecommendationEngine {
           });
         }
       } else if (flexibleTransportActivated && nextCity !== currentCity) {
-          // If flexibility was active and we successfully moved to a new city, reset
-          flexibleTransportActivated = false;
-          consecutiveDaysInSameCity = 0;
+        flexibleTransportActivated = false;
+        consecutiveDaysInSameCity = 0;
       }
 
-      // For days after the first, attempt to find transport to a new city
       if (day > 1) {
         const candidateCities = this.findCandidateCities(
           currentCity,
           visitedCities,
-          currentTransportPreference, // Use the potentially expanded preference
+          currentTransportPreference,
           remainingBudget
         );
 
         if (candidateCities.length > 0) {
-          // Score and select the best next city based on interests and POI availability
           const bestCity = this.scoreCities(candidateCities, interests);
           if (bestCity) {
             nextCity = bestCity.city;
             transport = bestCity.transport;
             dailyTransportCost = transport.cost;
-            remainingBudget -= dailyTransportCost; // Deduct transport cost from budget
+            remainingBudget -= dailyTransportCost;
             totalTravelTime += transport.durationHrs;
             visitedCities.add(nextCity);
           }
         }
       }
 
-      // Update consecutive days counter
       if (nextCity === currentCity) {
         consecutiveDaysInSameCity++;
       } else {
-        consecutiveDaysInSameCity = 0; // Reset if we successfully moved to a new city
+        consecutiveDaysInSameCity = 0;
       }
 
-      // Select activities for the current city, ensuring no duplicate POIs
       const activities = this.selectActivitiesForCity(nextCity, interests, remainingBudget, visitedPois, day);
-      // Add newly selected activity IDs to the master list of visited POIs
       activities.forEach(activity => visitedPois.add(activity.id));
 
-      // Calculate the total cost incurred for activities on this specific day
       const dailyActivityCost = activities.reduce((sum, activity) => sum + (activity.cost || 0), 0);
       const dailyTotalCost = dailyActivityCost + dailyTransportCost;
-      remainingBudget -= dailyActivityCost; // Deduct activity cost from budget
+      remainingBudget -= dailyActivityCost;
 
       tripDays.push({
         day,
         city: nextCity,
-        date: currentDate.toISOString().split('T')[0], // Format date to YYYY-MM-DD
+        date: currentDate.toISOString().split('T')[0],
         transport: transport ? {
           from: currentCity,
           to: nextCity,
@@ -142,31 +134,27 @@ export class TripRecommendationEngine {
           id: activity.id,
           name: activity.name,
           category: activity.category,
-          time: this.generateTimeSlot(activities.indexOf(activity)), // Assigns a fixed time slot based on order
-          duration: activity.duration || 120 // Default activity duration in minutes
+          time: this.generateTimeSlot(activities.indexOf(activity)),
+          duration: activity.duration || 120
         })),
         dailyCost: dailyTotalCost
       });
 
-      currentCity = nextCity; // Set the current city for the next day's planning iteration
+      currentCity = nextCity;
     }
 
     return {
       tripDays,
-      totalCost: maxBudget - remainingBudget, // Actual total cost spent during the trip
-      totalTravelTime, // Total hours spent on inter-city travel
-      remainingBudget // Remaining budget after planning the trip
+      totalCost: maxBudget - remainingBudget,
+      totalTravelTime,
+      remainingBudget
     };
   }
 
-  /**
-   * Filters and ranks cities reachable from the current location,
-   * considering user transport preferences and remaining budget.
-   */
   private findCandidateCities(
     currentCity: string,
     visitedCities: Set<string>,
-    transportPreference: string[], // This param is now potentially dynamic
+    transportPreference: string[],
     remainingBudget: number
   ) {
     const candidates = [];
@@ -177,7 +165,7 @@ export class TripRecommendationEngine {
       if (from.toLowerCase() === currentCity && !visitedCities.has(to.toLowerCase())) {
         const validOptions = options.filter(option =>
           transportPreference.includes(option.mode) &&
-          option.cost <= remainingBudget * 0.3 // Limit transport cost to 30% of remaining budget
+          option.cost <= remainingBudget * 0.3
         );
 
         if (validOptions.length > 0) {
@@ -197,10 +185,6 @@ export class TripRecommendationEngine {
     return candidates;
   }
 
-  /**
-   * Scores candidate cities based on how well their POIs align with user interests.
-   * Increased bonus for unvisited cities to encourage more exploration.
-   */
   private scoreCities(candidateCities: any[], interests: string[]) {
     let bestScore = -Infinity;
     let bestCity = null;
@@ -209,14 +193,13 @@ export class TripRecommendationEngine {
       const cityPois = this.poisData[candidate.city] || [];
       let score = 0;
 
-      // Sum popularity scores for POIs matching user interests
       cityPois.forEach((poi: Poi) => {
         if (interests.includes(poi.category.toLowerCase())) {
           score += poi.popularityScore || 1;
         }
       });
 
-      score += 50; // Significant bonus to strongly encourage visiting new cities
+      score += 50;
 
       if (score > bestScore) {
         bestScore = score;
@@ -227,15 +210,21 @@ export class TripRecommendationEngine {
   }
 
   /**
-   * Selects up to 3 diverse activities for a given city based on user interests, budget,
-   * avoiding activities already added to the trip, and adapting selection if options are limited.
+   * Improved: Rotates "filler" activities, and shuffles for max variety per city.
+   * Guarantees new combos for each day in same city, and only repeats if all POIs are exhausted.
    */
-  private selectActivitiesForCity(city: string, interests: string[], budget: number, visitedPois: Set<string>, currentDay: number) {
+  private selectActivitiesForCity(
+    city: string,
+    interests: string[],
+    budget: number,
+    visitedPois: Set<string>,
+    currentDay: number
+  ) {
     const cityPois = this.poisData[city] || [];
     const numActivitiesDesired = 3;
     const selectedActivities: Poi[] = [];
 
-    // Phase 1: Try to get interest-matching, unvisited, popular POIs
+    // Phase 1: Get interest-matching, unvisited, popular POIs
     const interestPois = cityPois
       .filter(poi => interests.some(interest => poi.category.toLowerCase().includes(interest.toLowerCase())) && !visitedPois.has(poi.id))
       .sort((a, b) => (b.popularityScore || 0) - (a.popularityScore || 0));
@@ -248,12 +237,20 @@ export class TripRecommendationEngine {
       }
     }
 
-    // Phase 2: If not enough, fill with unvisited, popular POIs regardless of interest match
+    // PHASE 2+: If not enough, rotate/shuffle fillers for max variety.
     if (selectedActivities.length < numActivitiesDesired) {
-      const generalPopularPois = cityPois
-        .filter(poi => !visitedPois.has(poi.id) && !selectedActivities.includes(poi))
+      // Get all unvisited, not already picked
+      let generalPopularPois = cityPois
+        .filter(poi => !visitedPois.has(poi.id) && !selectedActivities.some(sel => sel.id === poi.id))
         .sort((a, b) => (b.popularityScore || 0) - (a.popularityScore || 0));
 
+      // Shuffle for extra randomness
+      for (let i = generalPopularPois.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [generalPopularPois[i], generalPopularPois[j]] = [generalPopularPois[j], generalPopularPois[i]];
+      }
+
+      // Add as many as needed
       for (const poi of generalPopularPois) {
         if (selectedActivities.length < numActivitiesDesired) {
           selectedActivities.push(poi);
@@ -263,46 +260,37 @@ export class TripRecommendationEngine {
       }
     }
 
-    // Phase 3: If still not enough, take any remaining unvisited POIs (less popular, ensures variety)
+    // PHASE 3: If still not enough, rotate through ALL POIs for city (even visited), so same POIs do not repeat in the same order.
     if (selectedActivities.length < numActivitiesDesired) {
-      const anyUnvisitedPois = cityPois
-        .filter(poi => !visitedPois.has(poi.id) && !selectedActivities.includes(poi));
-      anyUnvisitedPois.sort(() => 0.5 - Math.random()); // Simple shuffle for more diverse picks if many low-priority options
+      // Ensure rotation state for this city
+      if (!this.poiRotationIndex[city]) this.poiRotationIndex[city] = 0;
 
-      for (const poi of anyUnvisitedPois) {
-        if (selectedActivities.length < numActivitiesDesired) {
-          selectedActivities.push(poi);
-        } else {
-          break;
+      const remaining = cityPois
+        .filter(poi => !selectedActivities.some(sel => sel.id === poi.id));
+      if (remaining.length > 0) {
+        // Rotate: take slice starting at current index
+        const start = this.poiRotationIndex[city] % remaining.length;
+        for (let i = 0; i < remaining.length && selectedActivities.length < numActivitiesDesired; i++) {
+          const idx = (start + i) % remaining.length;
+          selectedActivities.push(remaining[idx]);
         }
+        // Bump rotation index so next time the set is different
+        this.poiRotationIndex[city] = (this.poiRotationIndex[city] + numActivitiesDesired) % remaining.length;
       }
     }
 
-    // Phase 4 (Last Resort for longer trips): If still insufficient, allow picking from any POI in city,
-    // even if previously visited, but only after initial days to avoid immediate repetition.
-    if (selectedActivities.length < numActivitiesDesired && currentDay > 1) {
-        const allCityPoisNotCurrentlySelected = cityPois
-            .filter(poi => !selectedActivities.includes(poi)); // Exclude only those picked *for this specific day*
-        allCityPoisNotCurrentlySelected.sort(() => 0.5 - Math.random()); // Randomize for variety
-
-        for (const poi of allCityPoisNotCurrentlySelected) {
-            if (selectedActivities.length < numActivitiesDesired) {
-                selectedActivities.push(poi);
-            } else {
-                break;
-            }
-        }
+    // Safety: never repeat POI in the same day, always at least shuffle the order
+    for (let i = selectedActivities.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [selectedActivities[i], selectedActivities[j]] = [selectedActivities[j], selectedActivities[i]];
     }
 
-    return selectedActivities.map((poi: Poi) => ({
+    return selectedActivities.slice(0, numActivitiesDesired).map((poi: Poi) => ({
       ...poi,
       cost: this.estimateActivityCost(poi.category)
     }));
   }
 
-  /**
-   * Provides a rough cost estimate for an activity based on its category.
-   */
   private estimateActivityCost(category: string): number {
     const baseCosts: Record<string, number> = {
       museums: 15,
@@ -319,13 +307,9 @@ export class TripRecommendationEngine {
     const baseCategory = category.toLowerCase();
     const baseCost = baseCosts[baseCategory] || 15;
 
-    return Math.floor(baseCost + (Math.random() * 10) - 5); // Adds small random variation
+    return Math.floor(baseCost + (Math.random() * 10) - 5);
   }
 
-  /**
-   * Generates a fixed time slot string (e.g., "9:00 AM - 12:00 PM") based on an index,
-   * used for scheduling activities within a day.
-   */
   private generateTimeSlot(index: number): string {
     const timeSlots = [
       { start: 9, end: 12, period: 'AM' },
@@ -340,10 +324,6 @@ export class TripRecommendationEngine {
     return `${slot.start}:00 ${startPeriod} - ${slot.end}:00 ${endPeriod}`;
   }
 
-  /**
-   * Validates the structure and content of a TripRequest object.
-   * Returns an array of error messages if any validation rules are violated.
-   */
   static validateTripRequest(request: TripRequest): string[] {
     const errors: string[] = [];
 
@@ -374,10 +354,6 @@ export class TripRecommendationEngine {
     return errors;
   }
 
-  /**
-   * Calculates an estimated range for the total trip cost (min, max, average)
-   * based on duration and transport preferences, before full generation.
-   */
   static estimateTripCost(request: TripRequest): { min: number; max: number; average: number } {
     const { durationDays, transportPreference } = request;
 
@@ -413,10 +389,6 @@ export class TripRecommendationEngine {
     };
   }
 
-  /**
-   * Retrieves popular routes between cities based on the transport data,
-   * calculating a simple popularity score.
-   */
   getPopularRoutes(): Array<{ from: string; to: string; popularity: number }> {
     const routes = [];
 
@@ -437,10 +409,6 @@ export class TripRecommendationEngine {
     return routes.sort((a, b) => b.popularity - a.popularity);
   }
 
-  /**
-   * Recommends cities based on how well their Points of Interest (POIs) align with user interests,
-   * assigning a score based on matching POIs and their popularity.
-   */
   getCityRecommendations(interests: string[]): Array<{ city: string; score: number; matchingPois: number }> {
     const cityScores = [];
 
@@ -468,20 +436,10 @@ export class TripRecommendationEngine {
   }
 }
 
-/**
- * Utility functions for formatting and performing calculations related to trip data, primarily for display purposes.
- */
 export const TripUtils = {
-  /**
-   * Formats a city ID (e.g., "paris") into a display name (e.g., "Paris").
-   */
   formatCityName: (cityId: string): string => {
     return cityId.charAt(0).toUpperCase() + cityId.slice(1);
   },
-
-  /**
-   * Calculates the total duration of the trip, combining days and estimated travel/activity hours.
-   */
   calculateTotalDuration: (tripDays: TripDay[]): { days: number; hours: number } => {
     const totalHours = tripDays.reduce((sum, day) => {
       const travelTime = day.transport?.option.durationHrs || 0;
@@ -495,17 +453,9 @@ export const TripUtils = {
       hours: Math.round(totalHours)
     };
   },
-
-  /**
-   * Extracts a list of unique cities visited within the trip itinerary.
-   */
   getUniqueCities: (tripDays: TripDay[]): string[] => {
     return Array.from(new Set(tripDays.map(day => day.city)));
   },
-
-  /**
-   * Provides a simplified breakdown of estimated transport and activity costs for the trip.
-   */
   calculateCostBreakdown: (tripDays: TripDay[]) => {
     let transportCost = 0;
     let activityCost = 0;
@@ -525,10 +475,6 @@ export const TripUtils = {
       total: transportCost + activityCost
     };
   },
-
-  /**
-   * Generates a concise human-readable summary string of the trip's destinations and duration.
-   */
   generateTripSummary: (tripResult: TripResponse): string => {
     const cities = TripUtils.getUniqueCities(tripResult.tripDays);
     const duration = tripResult.tripDays.length;
@@ -542,10 +488,6 @@ export const TripUtils = {
       return `${cityNames.slice(0, -1).join(', ')} & ${cityNames[cityNames.length - 1]} (${duration} days)`;
     }
   },
-
-  /**
-   * Validates the integrity of a generated TripResponse object, checking for common missing data.
-   */
   validateTripData: (tripResult: TripResponse): string[] => {
     const errors: string[] = [];
 

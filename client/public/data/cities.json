@@ -18,5 +18,15 @@
   {"id": "edinburgh", "name": "Edinburgh", "country": "Scotland"},
   {"id": "munich", "name": "Munich", "country": "Germany"},
   {"id": "milan", "name": "Milan", "country": "Italy"},
-  {"id": "lyon", "name": "Lyon", "country": "France"}
+  {"id": "lyon", "name": "Lyon", "country": "France"},
+  {"id": "madrid", "name": "Madrid", "country": "Spain"},
+  {"id": "istanbul", "name": "Istanbul", "country": "Turkey"},
+  {"id": "kutaisi", "name": "Kutaisi", "country": "Georgia"},
+  {"id": "athens", "name": "Athens", "country": "Greece"},
+  {"id": "oslo", "name": "Oslo", "country": "Norway"},
+  {"id": "helsinki", "name": "Helsinki", "country": "Finland"},
+  {"id": "warsaw", "name": "Warsaw", "country": "Poland"},
+  {"id": "reykjavik", "name": "Reykjavik", "country": "Iceland"},
+  {"id": "dubrovnik", "name": "Dubrovnik", "country": "Croatia"},
+  {"id": "krakow", "name": "Krakow", "country": "Poland"}
 ]
